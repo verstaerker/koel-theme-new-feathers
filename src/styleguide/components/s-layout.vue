@@ -1,13 +1,12 @@
 <template>
   <div :class="b()">
     <router-view />
-    <s-navigation :routes="routes" nav-position="bottom-right" />
+    <s-navigation :routes="$router.options.routes" nav-position="bottom-right" />
   </div>
 </template>
 
 <script>
   import sNavigation from '@/styleguide/components/s-navigation';
-  import styleguideRoutes from '@/setup/styleguide.routes';
 
   export default {
     name: 's-layout',
@@ -23,11 +22,7 @@
     //   return {};
     // },
 
-    computed: {
-      routes() {
-        return styleguideRoutes;
-      }
-    },
+    // computed: {},
     // watch: {},
 
     // beforeCreate() {},

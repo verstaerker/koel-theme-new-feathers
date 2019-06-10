@@ -320,7 +320,6 @@ module.exports = (env = {}, options = {}) => {
     entry: {
       ...themes,
       app: [
-        '@babel/polyfill',
         path.resolve(__dirname, 'src/main.js'),
       ]
     },
