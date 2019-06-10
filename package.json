@@ -1,7 +1,7 @@
 {
-  "name": "vue-template",
-  "version": "4.0.0-alpha",
-  "description": "A customized Vue.js project template",
+  "name": "koel-theme-new-feathers",
+  "version": "0.1.0",
+  "description": "An alternative koel player theme.",
   "scripts": {
     "dev": "webpack-dev-server --mode=development",
     "dev:s": "npm run styleguide",

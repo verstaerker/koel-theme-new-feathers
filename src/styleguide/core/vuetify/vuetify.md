@@ -1,6 +1,6 @@
 ### Vuetify
  
-Vuetify is a component library with default styling. We currently use it for the c-date-picker component.
+Vuetify is a component library with default styling.
 See http://vuetifyjs.com/ for details.
 
 Vuetify needs one root element on the page to work. This can either be the `v-app` component or you can add an attribute called `data-app` to one element.
