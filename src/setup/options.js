@@ -13,4 +13,12 @@ export default {
   store,
   i18n,
   router,
+  created() {
+    const token = localStorage.getItem('koelToken');
+
+    // Restore session if token exists.
+    if (token) {
+      this.$store.commit('session/setToken', token);
+    }
+  }
 };

@@ -6,6 +6,11 @@
   "globalMessages": {
     "unknownApiError": "Es ist ein unbekannter Fehler aufgetreten."
   },
+  "c-login": {
+    "email": "E-Mail",
+    "password": "Passwort",
+    "submit": "Login"
+  },
   "c-table": {
     "deselectAll": "Auswahl aufheben",
     "linkLabel": "Link zur Detailseite",

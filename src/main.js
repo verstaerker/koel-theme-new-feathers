@@ -10,7 +10,6 @@ import directives from './setup/directives';
 import components from './setup/components';
 
 import './setup/plugins';
-import getUrlParameter from './helpers/get-url-parameter';
 
 Vue.config.devtools = process.env.NODE_ENV !== 'production' || process.env.HAS_WATCHER;
 Vue.config.performance = process.env.NODE_ENV !== 'production'; // NOTE: currently failing with watcher.
@@ -28,12 +27,3 @@ if (process.env.NODE_ENV !== 'production' || process.env.HAS_STYLEGUIDE) {
 }
 
 window.vm = new Vue(vueOptions);
-
-// Set theme according to url in development. e.g. ?theme=01
-if (process.env.NODE_ENV !== 'production' || process.env.HAS_STYLEGUIDE) {
-  const themeId = getUrlParameter('theme');
-
-  if (themeId) {
-    window.vm.$store.commit('session/setTheme', themeId);
-  }
-}
