@@ -1,27 +1,35 @@
 <!-- eslint-disable max-len -->
 <template>
-  <div :class="b()">
-    <c-login v-if="!getToken" />
-    <e-button v-else
-              @click="logout"
-    >
-      Logout
-    </e-button>
-  </div>
+  <l-default>
+    <div :class="b()">
+      <c-login v-if="!getToken" />
+      <e-button v-else
+                @click="logout"
+      >
+        Logout
+      </e-button>
+      <c-album-grid :albums="getAlbums" />
+    </div>
+  </l-default>
 </template>
 
 <script>
   import cLogin from '@/components/c-login';
   import { mapGetters, mapActions } from 'vuex';
+  import CAlbumGrid from '@/components/c-album-grid';
 
   export default {
     name: 'index',
     components: {
+      CAlbumGrid,
       cLogin,
     },
     computed: {
       ...mapGetters('session', [
         'getToken'
+      ]),
+      ...mapGetters('album', [
+        'getAlbums'
       ]),
     },
     methods: {

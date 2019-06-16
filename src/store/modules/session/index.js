@@ -1,4 +1,6 @@
+import { TOKEN_KEY, VUEX_ROOT_COMMIT_CONFIG } from '@/setup/globals';
 import { i18n } from '@/setup/i18n';
+import { post } from '@/setup/plugins/ajax';
 
 export default {
   namespaced: true,
@@ -40,23 +42,17 @@ export default {
      * @param {String} payload.password - The users password.
      * @returns {Promise<any | never>}
      */
-    login({ commit }, payload) {
-      return fetch(`//localhost:8888${i18n.t('api.root')}${i18n.t('api.login')}`, {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(payload)
-      })
-        .then(response => response.json())
+    login({ commit, dispatch }, payload) {
+      return post(i18n.t('api.root') + i18n.t('api.login'), payload)
         .then((response) => {
         const token = response && response.token;
 
         if (token) {
           commit('setToken', token);
 
-          localStorage.setItem('koelToken', token);
+          localStorage.setItem(TOKEN_KEY, token);
+
+          dispatch('getData', null, VUEX_ROOT_COMMIT_CONFIG);
 
           return response;
         }
@@ -70,11 +66,13 @@ export default {
      *
      * @param {Object} context - The Vuex context.
      * @param {Function} context.commit - The commit method for the current Vuex module.
+     * @param {Function} context.dispatch - The dispatch method for the current Vuex module.
      */
-    logout({ commit }) {
-      localStorage.removeItem('koelToken');
+    logout({ commit, dispatch }) {
+      localStorage.removeItem(TOKEN_KEY);
 
       commit('setToken', null);
+      dispatch('clearStore', null, VUEX_ROOT_COMMIT_CONFIG);
     }
   },
 };

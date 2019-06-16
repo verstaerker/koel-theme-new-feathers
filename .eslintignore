@@ -2,6 +2,7 @@
 /*.js
 /test/unit/coverage/
 /node_modules/
+/blueprints/
 
 # TODO: the following should be refactored and removed from ignore
 /src/setup/plugins/vue-bem-cn

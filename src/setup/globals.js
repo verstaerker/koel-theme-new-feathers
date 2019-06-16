@@ -18,3 +18,7 @@ export const NOTIFICATION_UNKNOWN_ERROR = {
     message: i18n.t('globalMessages.unknownApiError'),
   }
 };
+
+export const TOKEN_KEY = 'jwt-token';
+
+export const VUEX_ROOT_COMMIT_CONFIG = { root: true };

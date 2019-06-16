@@ -1,4 +1,5 @@
 {
   "root": "/api",
-  "login": "/me"
+  "login": "/me",
+  "data": "/data"
 }
