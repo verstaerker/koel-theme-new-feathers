@@ -52,7 +52,7 @@
   import cFormNotification from '@/components/c-form-notification';
   import formStates from '../mixins/form-states';
   import propScale from '@/helpers/prop.scale';
-
+  const foo = 'this should fail';
   /**
    * Input form component
    */
