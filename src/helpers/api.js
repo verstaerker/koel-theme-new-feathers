@@ -1,4 +1,4 @@
-import axios from 'axios';
+const axios = {}; // TODO: remove helper
 
 /**
  * Pushes an array of messages to the notification handler.
