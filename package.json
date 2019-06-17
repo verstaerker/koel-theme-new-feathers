@@ -12,15 +12,14 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged",
-      "commit-msg": "echo $HUSKY_GIT_PARAMS"
+      "pre-commit": "lint-staged"
     }
   },
   "lint-staged": {
-    "*.{js|vue}": [
+    "*.{js,vue}": [
       "eslint"
     ],
-    "*.{css|vue|scss}": [
+    "*.{css,vue,scss}": [
       "stylelint"
     ]
   },
