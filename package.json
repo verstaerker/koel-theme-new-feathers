@@ -5,15 +5,16 @@
   "scripts": {
     "dev": "webpack-dev-server --mode=development",
     "dev:s": "npm run styleguide",
+    "jest": "jest tests --config jest.config.js",
     "styleguide": "vue-styleguidist server",
-    "test": "eslint --cache --ext .js,.vue src tests/unit/specs && stylelint --cache 'src/**/*.?(vue|scss)' && jest tests --config jest.config.js; exit 0;",
+    "test": "eslint --cache --ext .js,.vue src tests/unit/specs && stylelint --cache 'src/**/*.?(vue|scss)' && npm run jest; exit 0;",
     "build": "webpack --mode production --progress",
     "build:watch": "webpack --mode production --watch"
   },
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged",
-      "pre-push": "npm run test"
+      "pre-push": "npm run jest"
     }
   },
   "lint-staged": {
@@ -26,7 +27,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/valantic/vue-template.git"
+    "url": "git+https://github.com/verstaerker/koel-theme-new-feathers.git"
   },
   "engines": {
     "node": ">=10.0.0 <11.0.0",
@@ -35,14 +36,15 @@
   "keywords": [
     "vue",
     "vuejs",
-    "valantic"
+    "Verstärker",
+    "Verstaerker"
   ],
-  "author": "valantic CEC",
+  "author": "Verstärker, Patric Eberle",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/valantic/vue-template/issues"
+    "url": "https://github.com/verstaerker/koel-theme-new-feathers/issues"
   },
-  "homepage": "https://github.com/valantic/vue-template",
+  "homepage": "https://github.com/verstaerker/koel-theme-new-feathers",
   "dependencies": {
     "@babel/polyfill": "^7.4.4",
     "core-js": "^3.1.3",
