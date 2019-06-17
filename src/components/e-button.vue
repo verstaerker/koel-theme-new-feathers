@@ -15,7 +15,6 @@
     <span :class="b('inner')">
       <e-progress v-if="progress"
                   :spacing="0"
-                  negative
       />
       <!-- @slot Button content. -->
       <slot v-else></slot>
@@ -374,7 +373,7 @@
     &--progress[disabled]:focus,
     &--progress:hover,
     &--progress:focus {
-      background-color: $color-grayscale--400;
+      background-color: $color-grayscale--100;
       overflow: hidden; // Prevents overflow of animation
     }
 
@@ -382,11 +381,6 @@
       position: relative;
       display: inline-block;
       vertical-align: baseline;
-    }
-
-    .e-progress {
-      margin-top: -2px; // Creates unified height for text/progress button
-      margin-bottom: -1px;
     }
   }
 

@@ -57,7 +57,7 @@
     &__code {
       display: inline-block;
       border: 1px solid $color-grayscale--400;
-      background: rgba($color-primary--2--rgb, 0.5);
+      background: rgba($color-primary--2, 0.5);
       color: $color-primary--3;
     }
   }

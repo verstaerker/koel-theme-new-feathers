@@ -1,9 +1,8 @@
 <template>
   <div :class="b(componentModifiers)">
-    <div :class="b('inner')">
-      <div :class="b('bubble')"></div>
-      <div :class="b('bubble')"></div>
-      <div :class="b('bubble')"></div>
+    <div :class="b('spinners')">
+      <div :class="b('spinner', { one: true })"></div>
+      <div :class="b('spinner', { two: true })"></div>
     </div>
     <span class="invisible">
       {{ loadingMessage }}
@@ -88,67 +87,99 @@
 </script>
 
 <style lang="scss">
-  $_e-progress__animation-duration: 2000ms;
-  $_e-progress--padding: $spacing--5;
-
-  @keyframes e-progress-rotation-animation {
-    0% {
-      transform: translate(-50% * -6, 0) scale(0) rotate(0.02deg); // NOTE: the rotation smooths animation in FF.
-    }
-
-    50% {
-      transform: translate(-50%, 0) scale(1) rotate(0.02deg);
-    }
-
-    100% {
-      transform: translate(-50% * 8, 0) scale(0) rotate(0.02deg);
-    }
+  @mixin e-progress-bounce($dur: 0.5s, $delay: 0s) {
+    animation: e-progress-bounce $dur ease $delay infinite;
   }
 
   .e-progress {
-    font-size: 1rem;
-    padding: $_e-progress--padding;
-    display: flex;
-    align-items: center;
+    $bar-width: 4px;
+    $bar-height: 1em;
+    $bar-radius: 0;
 
-    &--spacing-0 {
-      padding: 0;
+    %e-progress-bar {
+      width: $bar-width;
+      height: $bar-height;
+      border-radius: $bar-radius;
     }
 
-    &__inner {
+    &__spinners {
+      display: flex;
+    }
+
+    &__spinner { // Inspired by https://codepen.io/arthurcamara1/pen/LpNwyq
+      @extend %e-progress-bar;
+      @include e-progress-bounce(0.6s, 0.1s);
+
+      display: block;
       position: relative;
-      width: calc(1em * 4);
-      height: 1em;
-      float: left;
-    }
-
-    &__bubble {
-      height: 0.6em;
-      width: 0.6em;
-      left: 50%;
+      background: $color-grayscale--0;
+      height: $bar-height;
+      margin: 0 ($bar-width + $bar-width/2 + 1px);
       background-color: $color-secondary--1;
-      position: absolute;
-      margin: $spacing--5 auto 0;
-      border-radius: 50%;
-      animation: e-progress-rotation-animation $_e-progress__animation-duration linear infinite;
 
-      &:nth-child(1) {
-        animation-delay: $_e-progress__animation-duration / 3 * -1;
+      &::before,
+      &::after {
+        @extend %e-progress-bar;
+
+        content: "";
+        position: absolute;
+        display: block;
+        bottom: 0;
       }
 
-      &:nth-child(2) {
-        animation-delay: $_e-progress__animation-duration / 3 * -2;
+      &::before {
+        left: -1 * ($bar-width + $bar-width/2);
       }
 
-      &:nth-child(3) {
-        animation-delay: $_e-progress__animation-duration / 3 * -3;
+      &::after {
+        left: $bar-width + $bar-width/2;
+      }
+
+      &--one {
+        &::before {
+          @include e-progress-bounce(0.6s, 0s);
+
+          background-color: $color-secondary--2;
+        }
+
+        &::after {
+          @include e-progress-bounce(0.6s, 0.2s);
+
+          background-color: $color-secondary--3;
+        }
+      }
+
+      &--two {
+        background-color: $color-secondary--5;
+        margin-right: 0;
+
+        &::before {
+          @include e-progress-bounce(0.6s, 0s);
+
+          background-color: $color-secondary--4;
+        }
+
+        &::after {
+          display: none;
+        }
       }
     }
-  }
 
-  .e-progress--negative {
-    .e-progress__bubble {
-      background-color: $color-primary--3;
+    @keyframes e-progress-bounce {
+      0% {
+        height: 5px;
+        margin-top: calc(#{$bar-height} - 5px);
+      }
+
+      50% {
+        height: $bar-height;
+        margin-top: 0;
+      }
+
+      100% {
+        height: 5px;
+        margin-top: calc(#{$bar-height} - 5px);
+      }
     }
   }
 </style>
