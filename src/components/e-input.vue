@@ -1,4 +1,5 @@
 <template>
+  <!-- Todo: simplify template-->
   <div :class="b(modifiers)">
     <input v-if="uncontrolled"
            ref="input"
@@ -39,17 +40,6 @@
     <span v-if="$slots.fixedLabel" ref="fixedLabel" :class="b('fixed-label')">
       <!-- @slot Use this slot for a fixed label inside the input field. -->
       <slot name="fixedLabel"></slot>
-    </span>
-    <span v-if="$slots.default || !hasDefaultState" ref="slot" :class="b('slot-wrapper')">
-      <span v-if="$slots.default" :class="b('slot')">
-        <!-- @slot Use this slot for Content next to the input value. For e.g. icons or units. -->
-        <slot></slot>
-      </span>
-      <span v-if="!hasDefaultState && !hasFocus" :class="b('icon-splitter')"></span>
-      <e-icon v-if="!hasDefaultState && !hasFocus"
-              :class="b('state-icon')"
-              :icon="stateIcon"
-              inline />
     </span>
     <div v-if="showNotification" :class="b('notification')">
       <!-- eslint-disable-next-line vue/no-v-html -->
@@ -132,14 +122,6 @@
       ]),
 
       /**
-       * Determines if the input should have a shadow on focus
-       */
-      focusShadow: {
-        default: true,
-        type: [Boolean]
-      },
-
-      /**
        * Option for selecting value text on focus.
        */
       selectOnFocus: {
@@ -197,7 +179,6 @@
       modifiers() {
         const {
           border,
-          focusShadow,
           noNativeControl,
           notification
         } = this;
@@ -207,7 +188,6 @@
           notification: notification && this.hasFocus,
           type: this.$attrs.type || 'text',
           border,
-          focusShadow,
           noNativeControl,
         };
       },
@@ -218,17 +198,8 @@
     // created() {},
     // beforeMount() {},
     mounted() {
-      /**
-       * Calls the "setSlotSpacings" and "setFixedLabelSpacings" in a timeout function with a delay of 200ms because without
-       * it's not working on iOS
-       */
-      this.setSlotSpacings();
-      setTimeout(this.setSlotSpacings, 200);
-
       this.setFixedLabelSpacings();
       setTimeout(this.setFixedLabelSpacings, 200);
-
-      window.addEventListener('resizeend', this.setSlotSpacings);
 
       if (this.uncontrolled && this.$refs.input) {
         this.$refs.input.value = this.standalone ? this.internalValue : this.value;
@@ -236,15 +207,12 @@
     },
     // beforeUpdate() {},
     updated() {
-      setTimeout(this.setSlotSpacings);
       setTimeout(this.setFixedLabelSpacings);
     },
     // activated() {},
     // deactivated() {},
     // beforeDestroy() {},
-    destroyed() {
-      window.removeEventListener('resizeend', this.setSlotSpacings);
-    },
+    // destroyed() {},
 
     methods: {
       /**
@@ -315,17 +283,6 @@
       },
 
       /**
-       * Calculates the width of the slot content and sets it as a padding-right to the input-field.
-       */
-      setSlotSpacings() {
-        if (this.$refs.slot) {
-          const slotWidth = this.$refs.slot.clientWidth;
-
-          this.$refs.input.style.paddingRight = `${slotWidth + 10}px`;
-        }
-      },
-
-      /**
        * Calculates the width of the fixed label and sets it as padding-left to the input field.
        */
       setFixedLabelSpacings() {
@@ -385,7 +342,7 @@
     &__field {
       @include font($font-size--14, 18px);
 
-      border: 1px solid $color-grayscale--500;
+      border: 1px solid $color-secondary--1;
       border-radius: $border-radius--default;
       color: $color-secondary--1;
       font-family: $font-family--primary;
@@ -482,29 +439,19 @@
     // active
     &:not(&--border-0) &__field:active,
     &--active:not(&--border-0) &__field {
-      border: 1px solid $color-grayscale--400;
+      border-color: $color-secondary--2;
     }
 
     // focus
-    &__field:focus,
-    &--focus &__field {
-      outline: none;
-    }
-
     &:not(&--border-0) &__field:focus,
     &--focus:not(&--border-0) &__field {
-      border: 1px solid $color-grayscale--400;
-    }
-
-    &--focus-shadow &__field:focus,
-    &--focus-shadow.e-input--focus &__field {
-      box-shadow: 0 2px 5px 0 rgba($color-grayscale--400, 0.5);
+      border-color: $color-secondary--2;
     }
 
     // hover
     &:not(&--border-0) &__field:hover,
     &--hover:not(&--border-0) &__field {
-      border: 1px solid $color-grayscale--400;
+      border-color: $color-secondary--3;
     }
 
     // disabled
@@ -546,12 +493,9 @@
       border-color: $color-status--danger;
     }
 
-    &--state-error:not(.e-input--border-0) &__field:hover {
-      border: 1px solid $color-status--danger;
-    }
-
+    &--state-error:not(.e-input--border-0) &__field:hover,
     &--state-error:not(.e-input--border-0) &__field:focus {
-      border: 1px solid $color-status--danger;
+      border-color: $color-status--danger;
     }
 
     &--state-info {
@@ -591,7 +535,6 @@
       // NOTE: FF also uses webkit style. But it will be overwritten by 'appearance' (and vendor prefixing).
       // 'none' must be used to remove native webkit shadow.
       -webkit-appearance: none;
-      appearance: textfield;
 
       &::-webkit-inner-spin-button,
       &::-webkit-outer-spin-button {

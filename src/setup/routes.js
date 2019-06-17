@@ -1,4 +1,5 @@
 import index from '../pages/index';
+import albums from '../pages/albums';
 
 const root = '/';
 
@@ -12,6 +13,14 @@ export default [
     component: index,
     meta: {
       title: 'Index',
+    }
+  },
+  {
+    path: `${root}/albums`,
+    name: 'albums',
+    component: albums,
+    meta: {
+      title: 'Albums',
     }
   },
   {

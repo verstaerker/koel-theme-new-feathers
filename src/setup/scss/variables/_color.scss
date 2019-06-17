@@ -15,14 +15,12 @@ $color-grayscale--1000: #ffffff;
 // $color-gradient--1-1: $color-grayscale--1000;
 
 // CSS Variables
-$color-primary--1: var(--theme-color-primary-1);
-// $color-primary--1--rgb: var(--theme-color-primary-1--rgb);
+$color-primary--1: #88a61b;
 $color-primary--2: var(--theme-color-primary-2);
 $color-primary--3: var(--theme-color-primary-3);
-// $color-primary--3--rgb: var(--theme-color-primary-3--rgb);
 
 $color-secondary--1: #0e3d59;
-$color-secondary--2: #88a61b;
+$color-secondary--2: $color-primary--1;
 $color-secondary--3: #f29f05;
 $color-secondary--4: #f25c05;
 $color-secondary--5: #d92525;

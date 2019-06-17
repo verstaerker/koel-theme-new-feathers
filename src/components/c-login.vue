@@ -1,25 +1,38 @@
 <template>
-  <form :class="b({ status })" action="/" @submit.prevent="onSubmit">
-    <e-label :name="$t('c-login.email')">
+  <form :class="b()" action="/" @submit.prevent="onSubmit">
+    <e-label :class="b('email')"
+             :name="$t('c-login.email')"
+             :state="state"
+             invisible
+    >
       <e-input v-model="email"
                :name="$t('c-login.email')"
                :placeholder="$t('c-login.email')"
                :disabled="progress"
+               :state="state"
                type="email"
                required
       />
     </e-label>
-    <e-label :name="$t('c-login.password')">
+    <e-label :class="b('password')"
+             :name="$t('c-login.password')"
+             :state="state"
+             invisible
+    >
       <e-input v-model="password"
                :name="$t('c-login.password')"
                :placeholder="$t('c-login.password')"
                :disabled="progress"
+               :state="state"
                type="password"
                required
       />
     </e-label>
 
-    <e-button :progress="progress">
+    <e-button :class="b('submit')"
+              :progress="progress"
+              primary
+    >
       <span v-t="'c-login.submit'"></span>
     </e-button>
   </form>
@@ -51,7 +64,7 @@
         /**
          * @type {String} Holds the form state (error|null).
          */
-        status: null,
+        state: null,
 
         /**
          * @type {Boolean} Flag of the current request state.
@@ -83,14 +96,14 @@
        * Event handler for login form submit event.
        */
       onSubmit() {
-        this.status = null;
+        this.state = null;
         this.progress = true;
 
         this
           .login({ email: this.email, password: this.password })
           .then()
           .catch(() => {
-            this.status = 'error';
+            this.state = 'error';
           })
           .finally(() => {
             this.progress = false;
@@ -103,9 +116,19 @@
 
 <style lang="scss">
   .c-login {
-    &--status-error {
-      animation: c-login--shake 1s;
-      border: 1px solid $color-status--danger;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: $spacing--20 0 $spacing--20 25vw;
+
+    &__submit,
+    &__email,
+    &__password {
+      flex: 1 1 auto;
+    }
+
+    &__password {
+      margin: 0 $spacing--20;
     }
 
     @keyframes c-login--shake {

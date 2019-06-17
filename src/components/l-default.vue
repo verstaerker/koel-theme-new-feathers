@@ -1,8 +1,10 @@
 <template>
   <div :class="b()" data-app>
-    <div ref="content" :class="b('content')">
-      <div ref="inner"
-           :class="b('inner')">
+    <header :class="b('header')">
+      <c-navigation :items="$router.options.routes" />
+    </header>
+    <div :class="b('content')">
+      <div :class="b('inner')">
         <c-notification-container />
         <slot></slot>
       </div>
@@ -13,12 +15,14 @@
 
 <script>
   import cNotificationContainer from '@/components/c-notification-container';
+  import CNavigation from '@/components/c-navigation';
 
   export default {
     name: 'l-default',
     // status: 1,
 
     components: {
+      CNavigation,
       cNotificationContainer,
     },
     // mixins: [],

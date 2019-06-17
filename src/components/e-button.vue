@@ -288,8 +288,8 @@
     display: inline-block;
     background: transparent;
     padding: 6px $spacing--10;
-    border: 1px solid $color-grayscale--500;
-    color: $color-grayscale--400;
+    color: $color-grayscale--1000;
+    border: 1px solid $color-grayscale--200;
     border-radius: $_e-button__radius;
     outline: none;
     min-width: 165px;
@@ -304,8 +304,6 @@
     &:focus {
       color: $color-primary--3;
       background-color: $color-grayscale--500;
-      outline: none;
-      border: 1px solid $color-grayscale--500;
     }
 
     &:active:not([disabled]),
@@ -317,15 +315,7 @@
 
     &--hover:not(&--touch),
     &:hover:not(&--touch) {
-      color: $color-primary--3;
-      background-color: $color-grayscale--500;
-    }
-
-    &--focus path,
-    &--hover:not(&--touch) path,
-    &:focus path,
-    &:hover:not(&--touch) path {
-      fill: $color-primary--3;
+      color: $color-grayscale--400;
     }
 
     &[disabled],
@@ -333,8 +323,8 @@
     &[disabled]:hover,
     &--disabled:hover {
       background-color: transparent;
-      border-color: $color-grayscale--600;
-      color: $color-grayscale--450;
+      border-color: $color-grayscale--200;
+      color: $color-grayscale--200;
       cursor: default;
       pointer-events: none;
     }
@@ -385,25 +375,26 @@
   }
 
   .e-button--primary {
+    border-color: transparent;
+
     &:not([disabled]) {
-      color: $color-secondary--2;
+      color: $color-grayscale--1000;
+      background: $color-primary--1;
 
       &.e-button:focus,
       &.e-button--focus {
-        color: $color-primary--3;
-        background-color: $color-primary--1;
+        background-color: darken($color-primary--1, 5%);
       }
 
       &.e-button:hover:not(.e-button--touch),
       &.e-button--hover:not(.e-button--touch) {
-        color: $color-primary--3;
-        background-color: $color-primary--1;
+        background-color: darken($color-primary--1, 5%);
       }
 
       &.e-button:active:not([disabled]),
       &.e-button--active:not([disabled]) {
-        color: $color-primary--3;
-        background-color: $color-secondary--2;
+        color: $color-grayscale--1000;
+        background: $color-primary--1;
       }
     }
 
@@ -414,6 +405,8 @@
     &.e-button--progress:hover,
     &.e-button--progress:focus {
       background-color: $color-secondary--2;
+      display: flex;
+      justify-content: center;
     }
   }
 </style>

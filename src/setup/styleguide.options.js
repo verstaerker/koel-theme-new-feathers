@@ -1,7 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import './styleguide.polyfills';
-import sLayout from '../styleguide/components/s-layout';
 import dummyImages from '../styleguide/mock-data/initial-data/images';
 import dummyVideos from '../styleguide/mock-data/initial-data/videos';
 import dummyTableDate from '../styleguide/mock-data/initial-data/table';
@@ -35,8 +34,4 @@ Vue.mixin({
 window.vm = new Vue();
 
 export default {
-  template: '<s-layout/>',
-  components: {
-    sLayout,
-  }
 };
