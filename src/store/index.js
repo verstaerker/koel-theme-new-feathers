@@ -6,7 +6,6 @@ import Album from './models/Album';
 import Artist from './models/Artist';
 import Song from './models/Song';
 import { get } from '@/setup/plugins/ajax'; // eslint-disable-line import/no-cycle
-import { VUEX_ROOT_COMMIT_CONFIG } from '@/setup/globals';
 
 const requireModel = require.context('./models', false, /.+\.js$/);
 const requireModule = require.context('./modules/', true, /index\.js/);
@@ -38,11 +37,8 @@ export default new Vuex.Store({
   actions: {
     /**
      * Get the user related data from Koel.
-     *
-     * @param {Object} context - The Vuex module context.
-     * @param {Function} context.commit - the commit method of the Vuex module.
      */
-    getData({ commit }) {
+    getData() {
       get('/api/data')
         .then((response) => {
           const {
@@ -53,7 +49,6 @@ export default new Vuex.Store({
 
           if (albums) {
             Album.insert({ data: albums });
-            commit('album/addAlbums', albums, VUEX_ROOT_COMMIT_CONFIG);
           }
 
           if (artists) {
@@ -68,12 +63,11 @@ export default new Vuex.Store({
 
     /**
      * Clears all user related store data.
-     *
-     * @param {Object} context - The Vuex module context.
-     * @param {Function} context.commit - the commit method of the Vuex module.
      */
-    clearStore({ commit }) {
-      commit('album/clearAlbums', null, VUEX_ROOT_COMMIT_CONFIG);
+    clearStore() {
+      Song.deleteAll();
+      Artist.deleteAll();
+      Album.deleteAll();
     }
   }
 });
