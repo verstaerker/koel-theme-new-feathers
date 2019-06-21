@@ -1,19 +1,19 @@
 <template>
   <div :class="b()">
-    <c-album-grid :albums="getAlbums" />
+    <c-album-grid :albums="albums" />
   </div>
 </template>
 
 <script>
-  import { mapGetters } from 'vuex';
-  import CAlbumGrid from '@/components/c-album-grid';
+  import cAlbumGrid from '@/components/c-album-grid';
+  import Album from '@/store/models/Album';
 
   export default {
     name: 'albums',
     // status: 1,
 
     components: {
-      CAlbumGrid,
+      cAlbumGrid,
     },
     // mixins: [],
 
@@ -23,9 +23,9 @@
     // },
 
     computed: {
-      ...mapGetters('album', [
-        'getAlbums'
-      ]),
+      albums() {
+        return Album.all();
+      }
     },
     // watch: {},
 

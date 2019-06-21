@@ -4,7 +4,7 @@
       v-model="selected"
       :headers="headers"
       :items="items"
-      :pagination.sync="pagination"
+      :pagination.sync="internalPagination"
       :search="searchTerm"
       :no-results-text="$t('c-table.noResultsFound')"
       select-all
@@ -73,10 +73,10 @@
     </v-data-table>
 
     <!-- PAGINATION (optional) -->
-    <div v-if="hasPagination" :class="b('pagination-wrapper')">
-      <c-table-pagination :total-amount="pagination.totalItems"
-                          :rows-per-page-value="pagination.rowsPerPage"
-                          :current-page="pagination.page"
+    <div v-if="pagination" :class="b('pagination-wrapper')">
+      <c-table-pagination :total-amount="internalPagination.totalItems"
+                          :rows-per-page-value="internalPagination.rowsPerPage"
+                          :current-page="internalPagination.page"
                           @updateRowsPerPage="onUpdateRowsPerPage"
                           @changePage="onChangePage"
       />
@@ -133,9 +133,9 @@
       /**
        * Flag shows/hides the pagination bar.
        */
-      hasPagination: {
-        type: Boolean,
-        default: false,
+      pagination: {
+        type: [Object, Boolean],
+        default: null,
       },
 
       /**
@@ -180,6 +180,10 @@
     },
 
     data() {
+      const pagination = this.pagination && typeof this.pagination === 'object'
+        ? this.pagination
+        : {};
+
       return {
         /**
          * @type {Array} selected - The list of selected rows (ids).
@@ -189,7 +193,8 @@
         /**
          * @type {Object} pagination - The default pagination setup.
          */
-        pagination: {
+        internalPagination: {
+          ...pagination,
           rowsPerPage: this.hasPagination ? 10 : 9999,
         }
       };
@@ -203,7 +208,7 @@
        */
       componentModifiers() {
         return {
-          noResults: this.pagination.totalItems < 1,
+          noResults: this.internalPagination.totalItems < 1,
         };
       },
     },
@@ -225,7 +230,7 @@
        * Observes if the items array got changed and updates the pagination object.
        */
       items() {
-        this.pagination.totalItems = this.items.length;
+        this.internalPagination.totalItems = this.items.length;
       },
     },
 
@@ -258,11 +263,11 @@
        * @param {String} column - The name of the column (header).
        */
       changeSort(column) {
-        if (this.pagination.sortBy === column) {
-          this.pagination.descending = !this.pagination.descending;
+        if (this.internalPagination.sortBy === column) {
+          this.internalPagination.descending = !this.internalPagination.descending;
         } else {
-          this.pagination.sortBy = column;
-          this.pagination.descending = false;
+          this.internalPagination.sortBy = column;
+          this.internalPagination.descending = false;
         }
       },
 
@@ -272,7 +277,7 @@
        * @param {Number} value - The amount of rows.
        */
       onUpdateRowsPerPage({ value }) {
-        this.pagination.rowsPerPage = parseInt(value, 10);
+        this.internalPagination.rowsPerPage = parseInt(value, 10);
       },
 
       /**
@@ -281,7 +286,7 @@
        * @param {Number} page - The page number.
        */
       onChangePage(page) {
-        this.pagination.page = page;
+        this.internalPagination.page = page;
       },
 
       /**

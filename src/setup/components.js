@@ -1,14 +1,14 @@
 // Form elements
 import eLabel from '@/components/e-label';
 import eInput from '@/components/e-input';
-// import eSelect from '@/components/e-select';
+import eSelect from '@/components/e-select';
 // import eRadio from '@/components/e-radio';
 // import eCheckbox from '@/components/e-checkbox';
 // import eTextarea from '@/components/e-textarea';
 import eButton from '@/components/e-button';
 
 // Elements
-// import eIcon from '@/components/e-icon';
+import eIcon from '@/components/e-icon';
 // import ePicture from '@/components/e-picture';
 // import eHeading from '@/components/e-heading';
 // import eProgress from '@/components/e-progress';
@@ -28,12 +28,12 @@ export default {
     const components = [
       eLabel,
       eInput,
-      // eSelect,
+      eSelect,
       // eRadio,
       // eCheckbox,
       // eTextarea,
       eButton,
-      // eIcon,
+      eIcon,
       // ePicture,
       // eHeading,
       // eProgress,
@@ -50,12 +50,12 @@ export default {
     } else {
       Vue.component(eLabel.name, eLabel);
       Vue.component(eInput.name, eInput);
-      // Vue.component(eSelect.name, eSelect);
+      Vue.component(eSelect.name, eSelect);
       // Vue.component(eRadio.name, eRadio);
       // Vue.component(eCheckbox.name, eCheckbox);
       // Vue.component(eTextarea.name, eTextarea);
       Vue.component(eButton.name, eButton);
-      // Vue.component(eIcon.name, eIcon);
+      Vue.component(eIcon.name, eIcon);
       // Vue.component(ePicture.name, ePicture);
       // Vue.component(eHeading.name, eHeading);
       // Vue.component(eProgress.name, eProgress);

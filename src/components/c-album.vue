@@ -1,11 +1,13 @@
 <template>
   <div :class="b()">
-    <figure :class="b('cover')">
-      <img :class="b('cover-image')" :src="album.cover" :alt="`Cover for '${album.name}`">
-      <figcaption :class="b('name')">
-        {{ album.name }}
-      </figcaption>
-    </figure>
+    <router-link :to="{ name: 'albumDetail', params: { id: album.$id }}">
+      <figure :class="b('cover')">
+        <img :class="b('cover-image')" :src="album.cover" :alt="`Cover for '${album.name}`">
+        <figcaption :class="b('name')">
+          {{ album.name }}
+        </figcaption>
+      </figure>
+    </router-link>
     <div :class="b('play')"></div>
   </div>
 </template>

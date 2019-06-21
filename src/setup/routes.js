@@ -1,5 +1,6 @@
 import index from '../pages/index';
-import albums from '../pages/albums';
+import album from '../pages/album/index';
+import albumDetail from '../pages/album/detail';
 
 const root = '/';
 
@@ -16,11 +17,19 @@ export default [
     }
   },
   {
-    path: `${root}/albums`,
-    name: 'albums',
-    component: albums,
+    path: `${root}album`,
+    name: 'album',
+    component: album,
     meta: {
       title: 'Albums',
+    }
+  },
+  {
+    path: `${root}album/:id`,
+    name: 'albumDetail',
+    component: albumDetail,
+    meta: {
+      title: 'Album',
     }
   },
   {

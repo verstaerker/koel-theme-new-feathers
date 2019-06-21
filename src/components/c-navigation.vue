@@ -38,7 +38,7 @@
 
     computed: {
       filteredItems() {
-        return this.items.filter(item => !!item.meta);
+        return this.items.filter(item => !!item.meta && !(/\/:/).test(item.path));
       }
     },
     // watch: {},

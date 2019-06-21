@@ -206,9 +206,8 @@
         }
 
         if (!cache[this.icon]) {
-          cache[this.icon] = this.$axios
-            .get(this.src)
-            .then(response => response.data);
+          cache[this.icon] = fetch(this.src)
+            .then(response => response.text());
         }
 
         cache[this.icon].then((svg) => {
