@@ -2,6 +2,9 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import VuexORM from '@vuex-orm/core';
 import camelCase from 'lodash/camelCase';
+import Album from './models/Album';
+import Artist from './models/Artist';
+import Song from './models/Song';
 import { get } from '@/setup/plugins/ajax'; // eslint-disable-line import/no-cycle
 import { VUEX_ROOT_COMMIT_CONFIG } from '@/setup/globals';
 
@@ -42,10 +45,23 @@ export default new Vuex.Store({
     getData({ commit }) {
       get('/api/data')
         .then((response) => {
-          const { albums } = response || {};
+          const {
+            albums,
+            songs,
+            artists,
+          } = response || {};
 
           if (albums) {
+            Album.insert({ data: albums });
             commit('album/addAlbums', albums, VUEX_ROOT_COMMIT_CONFIG);
+          }
+
+          if (artists) {
+            Artist.insert({ data: artists });
+          }
+
+          if (songs) {
+            Song.insert({ data: songs });
           }
         });
     },
