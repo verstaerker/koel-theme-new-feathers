@@ -1,5 +1,6 @@
 {
   "root": "/api",
   "login": "/me",
-  "data": "/data"
+  "data": "/data",
+  "play": "/{songId}/play"
 }

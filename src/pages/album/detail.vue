@@ -1,15 +1,21 @@
 <template>
   <div :class="b()">
+    <e-button v-if="selectedSongs" @click="onAddClick">
+      Add to playlist
+    </e-button>
     <c-table :items="songs"
              :headers="headers"
              :pagination="pagination"
              is-selectable
+             @onChangeSelected="onChangeSelected"
     />
   </div>
 </template>
 
 <script>
+  import { mapMutations } from 'vuex';
   import Album from '@/store/models/Album';
+  import Song from '@/store/models/Song';
   import CTable from '@/components/c-table';
 
   export default {
@@ -31,7 +37,8 @@
         ],
         pagination: {
           sortBy: 'track'
-        }
+        },
+        selectedSongs: null,
       };
     },
 
@@ -61,7 +68,21 @@
     // beforeDestroy() {},
     // destroyed() {},
 
-    // methods: {},
+    methods: {
+      ...mapMutations('player', [
+        'setPlaylist'
+      ]),
+      onChangeSelected(songs) {
+        this.selectedSongs = songs;
+      },
+      onAddClick() {
+        const songs = Array.isArray(this.selectedSongs) && this.selectedSongs.length
+          ? Song.query().whereIdIn(this.selectedSongs).get()
+          : [];
+
+        this.setPlaylist(songs);
+      }
+    },
     // render() {},
   };
 </script>
