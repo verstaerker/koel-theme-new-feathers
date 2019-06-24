@@ -3,7 +3,7 @@ import eLabel from '@/components/e-label';
 import eInput from '@/components/e-input';
 import eSelect from '@/components/e-select';
 // import eRadio from '@/components/e-radio';
-// import eCheckbox from '@/components/e-checkbox';
+import eCheckbox from '@/components/e-checkbox';
 // import eTextarea from '@/components/e-textarea';
 import eButton from '@/components/e-button';
 
@@ -30,7 +30,7 @@ export default {
       eInput,
       eSelect,
       // eRadio,
-      // eCheckbox,
+      eCheckbox,
       // eTextarea,
       eButton,
       eIcon,
@@ -52,7 +52,7 @@ export default {
       Vue.component(eInput.name, eInput);
       Vue.component(eSelect.name, eSelect);
       // Vue.component(eRadio.name, eRadio);
-      // Vue.component(eCheckbox.name, eCheckbox);
+      Vue.component(eCheckbox.name, eCheckbox);
       // Vue.component(eTextarea.name, eTextarea);
       Vue.component(eButton.name, eButton);
       Vue.component(eIcon.name, eIcon);

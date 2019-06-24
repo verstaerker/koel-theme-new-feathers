@@ -3,13 +3,8 @@
     <c-table :items="songs"
              :headers="headers"
              :pagination="pagination"
-    >
-      <template slot-scope="slotData">
-        <td v-for="header in slotData.headers" :key="header.value">
-          {{ slotData.props.item[header.value] }}
-        </td>
-      </template>
-    </c-table>
+             is-selectable
+    />
   </div>
 </template>
 
@@ -29,9 +24,9 @@
     data() {
       return {
         headers: [
+          { text: this.$t('album.detail.colTrack'), value: 'track' },
           { text: this.$t('album.detail.colTitle'), value: 'title' },
           { text: this.$t('album.detail.colDisc'), value: 'disc' },
-          { text: this.$t('album.detail.colTrack'), value: 'track' },
           { text: this.$t('album.detail.colRuntime'), value: 'runtime' },
         ],
         pagination: {
