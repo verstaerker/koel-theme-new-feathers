@@ -42,19 +42,13 @@
         const song = this.getCurrentSong;
 
         if (!song) {
-          return null;
+          return '';
         }
 
         return `//localhost:8888${this.$t('api.root') + this.$t('api.play', { songId: song.id })}?jwt-token=${this.getToken}`;
       }
     },
-    watch: {
-      src(value) { // TODO: not working yet
-        if (value) {
-          this.$refs.audio.play();
-        }
-      }
-    },
+    // watch: {},
 
     // beforeCreate() {},
     // created() {},
