@@ -392,6 +392,10 @@
       justify-content: flex-end;
     }
 
+    table.v-table {
+      background: transparent;
+    }
+
     table.v-table thead tr,
     table.v-table tbody tr {
       height: 40px;

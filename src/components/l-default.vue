@@ -9,21 +9,26 @@
         <slot></slot>
       </div>
     </div>
+    <footer :class="b('footer')">
+      <c-player />
+    </footer>
     <portal-target name="modal-container" multiple />
   </div>
 </template>
 
 <script>
   import cNotificationContainer from '@/components/c-notification-container';
-  import CNavigation from '@/components/c-navigation';
+  import cNavigation from '@/components/c-navigation';
+  import cPlayer from '@/components/c-player';
 
   export default {
     name: 'l-default',
     // status: 1,
 
     components: {
-      CNavigation,
+      cNavigation,
       cNotificationContainer,
+      cPlayer,
     },
     // mixins: [],
 
@@ -73,6 +78,13 @@
 
 <style lang="scss">
   .l-default {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
     background: $color-grayscale--100;
+
+    &__content {
+      overflow: auto;
+    }
   }
 </style>

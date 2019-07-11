@@ -1,19 +1,17 @@
 <template>
   <l-default>
-    <c-player />
     <router-view />
   </l-default>
 </template>
 
 <script>
-  import CPlayer from '@/components/c-player';
 
   /**
    * The root component for the Vue app.
    */
   export default {
     name: 'c-app',
-    components: { CPlayer },
+    // components: {},
     // status: 1,
 
     // components: {},
