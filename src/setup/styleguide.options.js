@@ -4,7 +4,7 @@ import './styleguide.polyfills';
 import dummyImages from '../styleguide/mock-data/initial-data/images';
 import dummyVideos from '../styleguide/mock-data/initial-data/videos';
 import dummyTableDate from '../styleguide/mock-data/initial-data/table';
-import { availableStatus } from './plugins/styleguide.status-label';
+import { availableStatus } from '../plugins/styleguide.status-label';
 
 // In development and on styleguide build, include router and example pages
 

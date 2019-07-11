@@ -1,6 +1,6 @@
 import { TOKEN_KEY, VUEX_ROOT_COMMIT_CONFIG } from '@/setup/globals';
 import { i18n } from '@/setup/i18n';
-import { post } from '@/setup/plugins/ajax';
+import { post } from '@/plugins/ajax';
 
 export default {
   namespaced: true,
