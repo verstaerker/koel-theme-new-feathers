@@ -80,3 +80,18 @@ body.no-scroll--position-fixed {
 [inline-template] { // Hides inline templates from flashing before rendering
   display: none;
 }
+
+// Transitions
+.route-slide-enter {
+  position: relative;
+  left: 100%;
+}
+
+.route-slide-enter-to {
+  left: 0;
+}
+
+.route-slide-enter-active {
+  position: relative;
+  transition: left 0.5s;
+}

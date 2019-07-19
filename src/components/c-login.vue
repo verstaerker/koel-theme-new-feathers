@@ -31,6 +31,7 @@
 
     <e-button :class="b('submit')"
               :progress="progress"
+              width="full"
               primary
     >
       <span v-t="'c-login.submit'"></span>
@@ -116,19 +117,11 @@
 
 <style lang="scss">
   .c-login {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: $spacing--20 0 $spacing--20 25vw;
-
     &__submit,
     &__email,
     &__password {
-      flex: 1 1 auto;
-    }
-
-    &__password {
-      margin: 0 $spacing--20;
+      display: block;
+      margin-bottom: $spacing--20;
     }
 
     @keyframes c-login--shake {

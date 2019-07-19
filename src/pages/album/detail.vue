@@ -3,12 +3,31 @@
     <e-button v-if="selectedSongs" @click="onAddClick">
       Add to playlist
     </e-button>
-    <c-table :items="songs"
-             :headers="headers"
-             :pagination="pagination"
-             is-selectable
-             @onChangeSelected="onChangeSelected"
-    />
+    <figure :class="b('album')">
+      <img :class="b('album-cover')" :src="album.cover">
+      <figcaption>
+        <dl>
+          <dt>Name</dt>
+          <dd>{{ album.name }}</dd>
+        </dl>
+      </figcaption>
+    </figure>
+    <table :class="b('songs')">
+      <thead>
+        <tr>
+          <th v-for="column in columns" :key="column.field">
+            {{ column.header }}
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="song in songs" :key="song.$id">
+          <td v-for="column in columns" :key="column.field">
+            {{ song[column.field] }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 
@@ -16,11 +35,10 @@
   import { mapMutations } from 'vuex';
   import Album from '@/store/models/Album';
   import Song from '@/store/models/Song';
-  import CTable from '@/components/c-table';
 
   export default {
-    name: 'albums',
-    components: { CTable },
+    name: 'album-detail',
+    // components: {},
     // status: 1,
 
     // components: {},
@@ -29,11 +47,11 @@
     // props: {},
     data() {
       return {
-        headers: [
-          { text: this.$t('album.detail.colTrack'), value: 'track' },
-          { text: this.$t('album.detail.colTitle'), value: 'title' },
-          { text: this.$t('album.detail.colDisc'), value: 'disc' },
-          { text: this.$t('album.detail.colRuntime'), value: 'runtime' },
+        columns: [
+          { header: this.$t('album.detail.colTrack'), field: 'track' },
+          { header: this.$t('album.detail.colTitle'), field: 'title' },
+          { header: this.$t('album.detail.colDisc'), field: 'disc' },
+          { header: this.$t('album.detail.colRuntime'), field: 'runtime' },
         ],
         pagination: {
           sortBy: 'track'
@@ -44,7 +62,7 @@
 
     computed: {
       album() {
-        const albumId = this.$route.params.id;
+        const { albumId } = this.$route.params;
 
         return Album
           .query()
@@ -52,8 +70,10 @@
           .find(albumId) || {};
       },
       songs() {
-        return this.album.songs || [];
-      }
+        const songs = this.album.songs || [];
+
+        return songs.sort((a, b) => (a.track > b.track ? 1 : -1));
+      },
     },
     // watch: {},
 
@@ -91,7 +111,20 @@
   /* stylelint-disable selector-class-pattern */
 
   /* Todo: find a solution for route naming. */
-  .albums {
-    // ...
+  .album-detail {
+    &__album {
+      display: flex;
+      margin-bottom: $spacing--50;
+    }
+
+    &__album-cover {
+      width: 20%;
+      max-width: 200px;
+      margin-right: $spacing--40;
+    }
+
+    &__songs {
+      width: 100%;
+    }
   }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <nav :class="b()">
+  <nav :class="b(modifiers)">
     <ul :class="b('navigation')">
       <router-link
         v-for="item in filteredItems"
@@ -11,7 +11,15 @@
         tag="li"
         exact>
         <a :class="b('link')">
-          {{ item.meta.title }}
+          <div :class="b('link-icon')">
+            <e-icon :icon="item.meta.icon"
+                    :width="iconSize"
+                    :height="iconSize"
+            />
+          </div>
+          <div :class="b('link-label')">
+            {{ item.meta.title }}
+          </div>
         </a>
       </router-link>
     </ul>
@@ -30,6 +38,10 @@
       items: {
         type: Array,
         required: true
+      },
+      minimized: {
+        type: Boolean,
+        default: false,
       }
     },
     // data() {
@@ -39,6 +51,14 @@
     computed: {
       filteredItems() {
         return this.items.filter(item => !!item.meta && !(/\/:/).test(item.path));
+      },
+      modifiers() {
+        return {
+          minimized: this.minimized,
+        };
+      },
+      iconSize() {
+        return this.minimized ? 30 : 50;
       }
     },
     // watch: {},
@@ -61,10 +81,29 @@
 
 <style lang="scss">
   .c-navigation {
+    $this: &;
+
     color: $color-grayscale--1000;
 
     &__navigation {
       @extend %list-reset;
+    }
+
+    &__link {
+      display: flex;
+      align-items: center;
+      padding: $spacing--20 0;
+    }
+
+    &__link-label {
+      color: $color-grayscale--1000;
+      margin-left: $spacing--20;
+    }
+
+    &--minimized {
+      #{$this}__link-label {
+        display: none;
+      }
     }
   }
 </style>

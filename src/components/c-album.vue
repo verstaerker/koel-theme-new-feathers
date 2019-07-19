@@ -1,6 +1,6 @@
 <template>
   <div :class="b()">
-    <router-link :to="{ name: 'albumDetail', params: { id: album.$id }}">
+    <router-link :to="{ name: 'albumDetail', params: { albumId: album.$id }}">
       <figure :class="b('cover')">
         <img :class="b('cover-image')" :src="album.cover" :alt="`Cover for '${album.name}`">
         <figcaption :class="b('name')">

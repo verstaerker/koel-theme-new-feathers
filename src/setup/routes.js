@@ -4,33 +4,48 @@ import albumDetail from '../pages/album/detail';
 
 const root = '/';
 
-/**
- * This file is only meant for style-example routes
- */
-export default [
-  {
+export const navigation = {
+  home: {
     path: root,
     name: 'index',
     component: index,
     meta: {
       title: 'Index',
-    }
+      icon: 'i-house',
+    },
   },
-  {
-    path: `${root}album`,
+  albums: {
+    path: 'album',
     name: 'album',
     component: album,
     meta: {
       title: 'Albums',
-    }
-  },
+      icon: 'i-album'
+    },
+  }
+};
+
+/**
+ * This file is only meant for style-example routes
+ */
+export default [
   {
-    path: `${root}album/:id`,
-    name: 'albumDetail',
-    component: albumDetail,
-    meta: {
-      title: 'Album',
-    }
+    ...navigation.home,
+    children: [
+      {
+        ...navigation.albums,
+        children: [
+          {
+            path: ':albumId',
+            name: 'albumDetail',
+            component: albumDetail,
+            meta: {
+              title: 'Album',
+            }
+          },
+        ]
+      },
+    ]
   },
   {
     path: '*',

@@ -3,7 +3,6 @@ import { i18n } from './i18n';
 import { TOKEN_KEY, VUEX_ROOT_COMMIT_CONFIG } from './globals';
 import store from '@/store/index';
 import routes from './routes'; // MUST come after i18n because of build order.
-import cApp from '@/components/c-app';
 
 const router = new VueRouter({
   routes,
@@ -12,10 +11,7 @@ const router = new VueRouter({
 
 export default {
   el: '#app',
-  template: '<c-app />',
-  components: {
-    cApp,
-  },
+  template: '<router-view />',
   store,
   i18n,
   router,

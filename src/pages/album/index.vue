@@ -1,6 +1,13 @@
 <template>
   <div :class="b()">
-    <c-album-grid :albums="albums" />
+    <div :class="b('album-list')">
+      <c-album-grid :albums="albums" />
+    </div>
+    <transition name="route-slide">
+      <div v-if="this.$route.params.albumId" :class="b('detail')">
+        <router-view />
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -47,9 +54,16 @@
 
 <style lang="scss">
   /* stylelint-disable selector-class-pattern */
-
-  /* Todo: find a solution for route naming. */
   .albums {
-    // ...
+    display: flex;
+    flex-direction: row;
+
+    &__album-list {
+      flex: 1 1 percentage(1 / 3);
+    }
+
+    &__detail {
+      flex: 1 1 percentage(2 / 3);
+    }
   }
 </style>

@@ -1,14 +1,15 @@
 <template>
   <span :class="b(componentModifiers)">
-    <!-- <span> needed for inline usage. -->
-    <img v-if="!inline"
-         :class="b('icon')"
-         :src="src"
-         :alt="alt"
-         :width="width"
-         :height="height"
-         :title="title"
-    >
+    <!-- eslint-disable vue/no-v-html -->
+    <span v-html="svg"
+          :is="inline ? 'span' : 'img'"
+          :class="b('icon')"
+          :src="inline ? null : src"
+          :alt="alt"
+          :width="inline ? null : width"
+          :height="inline ? null : height"
+          :title="title"
+    />
   </span>
 </template>
 
@@ -16,6 +17,11 @@
   const cache = {};
   const nodeCache = {};
 
+  /**
+   * Inserts an svg icon as img tag or inline svg.
+   *
+   * WARNING: uses v-html when using as inline icon!
+   */
   export default {
     name: 'e-icon',
     // status: 1,
@@ -41,7 +47,7 @@
        * Custom width value
        */
       width: {
-        type: String,
+        type: [String, Number],
         default: null,
       },
 
@@ -49,7 +55,7 @@
        * Custom height value
        */
       height: {
-        type: String,
+        type: [String, Number],
         default: null,
       },
 
@@ -102,6 +108,12 @@
         type: String,
         default: '-1',
       },
+    },
+
+    data() {
+      return {
+        svg: null
+      };
     },
     computed: {
       src() {
@@ -211,7 +223,7 @@
         }
 
         cache[this.icon].then((svg) => {
-          this.$el.appendChild(this.getSvgElement(svg));
+          this.svg = this.getSvgElement(svg).outerHTML;
         });
       },
     },

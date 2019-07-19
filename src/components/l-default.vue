@@ -1,13 +1,13 @@
 <template>
-  <div :class="b()" data-app>
-    <header :class="b('header')">
-      <c-navigation :items="$router.options.routes" />
-    </header>
-    <div :class="b('content')">
-      <div :class="b('inner')">
+  <div :class="b()">
+    <div :class="b('inner')">
+      <nav :class="b('nav')">
+        <c-navigation :items="navigation" :minimized="$route.fullPath !== '/'" />
+      </nav>
+      <main :class="b('content')">
         <c-notification-container />
         <slot></slot>
-      </div>
+      </main>
     </div>
     <footer :class="b('footer')">
       <c-player />
@@ -17,6 +17,7 @@
 </template>
 
 <script>
+  import { navigation } from '@/setup/routes';
   import cNotificationContainer from '@/components/c-notification-container';
   import cNavigation from '@/components/c-navigation';
   import cPlayer from '@/components/c-player';
@@ -33,9 +34,11 @@
     // mixins: [],
 
     // props: {},
-    // data() {
-    //   return {};
-    // },
+    data() {
+      return {
+        navigation: Object.values(navigation)
+      };
+    },
 
     // computed: {},
     // watch: {},
@@ -54,7 +57,6 @@
     // destroyed() {},
 
     methods: {
-
       /**
        * Gets localStorage messages and pushes them in the notification store to display.
        */
@@ -78,13 +80,29 @@
 
 <style lang="scss">
   .l-default {
-    display: flex;
-    flex-direction: column;
     height: 100%;
-    background: $color-grayscale--100;
 
-    &__content {
-      overflow: auto;
+    &__inner {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      height: 100%;
+      overflow-x: hidden;
+      padding: $spacing--40 0;
+    }
+
+    &__nav {
+      display: flex;
+      align-items: center;
+      padding: $spacing--10;
+    }
+
+    &__footer {
+      position: fixed;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background-color: $color-grayscale--100;
     }
   }
 </style>
