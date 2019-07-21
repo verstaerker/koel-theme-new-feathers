@@ -109,7 +109,7 @@
     }
 
     &__name {
-      @include font($font-size--16, $spacing--20);
+      @include font($font-size--24, $spacing--20);
 
       color: inherit;
       display: block;

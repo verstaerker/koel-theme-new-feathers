@@ -1,5 +1,7 @@
 import index from '../pages/index';
 import album from '../pages/album/index';
+import artist from '../pages/artist/index';
+import song from '../pages/song/index';
 import albumDetail from '../pages/album/detail';
 
 const root = '/';
@@ -22,6 +24,24 @@ export const navigation = {
       title: 'Albums',
       icon: 'i-album'
     },
+  },
+  artists: {
+    path: 'artist',
+    name: 'artist',
+    component: artist,
+    meta: {
+      title: 'Artists',
+      icon: 'i-microphone'
+    },
+  },
+  songs: {
+    path: 'song',
+    name: 'song',
+    component: song,
+    meta: {
+      title: 'Songs',
+      icon: 'i-music-note'
+    },
   }
 };
 
@@ -39,12 +59,15 @@ export default [
             path: ':albumId',
             name: 'albumDetail',
             component: albumDetail,
+            props: true,
             meta: {
               title: 'Album',
             }
           },
         ]
       },
+      navigation.artists,
+      navigation.songs,
     ]
   },
   {

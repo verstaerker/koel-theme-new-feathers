@@ -4,7 +4,7 @@
       <nav :class="b('nav')">
         <c-navigation :items="navigation" :minimized="$route.fullPath !== '/'" />
       </nav>
-      <main :class="b('content')">
+      <main v-if="$route.fullPath !== '/'" :class="b('content')">
         <c-notification-container />
         <slot></slot>
       </main>
@@ -89,6 +89,10 @@
       height: 100%;
       overflow-x: hidden;
       padding: $spacing--40 0;
+    }
+
+    &__content {
+      width: 100%;
     }
 
     &__nav {

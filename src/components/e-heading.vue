@@ -1,4 +1,10 @@
-<!-- This component has no <template> because of dynamic root element -->
+<template>
+  <h1 :is="tagName" :class="b(modifiers)" v-bind="$attrs">
+    <span :class="b('inner', innerModifiers)">
+      <slot></slot>
+    </span>
+  </h1>
+</template>
 
 <script>
   import propScale from '@/helpers/prop.scale';
@@ -18,11 +24,10 @@
        */
       color: {
         type: String,
-        default: 'blue',
+        default: 'white',
         validator(value) {
           return [
-            'blue',
-            'gray',
+            'white',
           ].includes(value);
         },
       },
@@ -94,7 +99,48 @@
       },
     },
 
-    // computed: {},
+    computed: {
+      /**
+       * Returns an Object of class modifiers for the root element.
+       *
+       * @returns {Object}
+       */
+      modifiers() {
+        const {
+          color,
+          underline,
+          uppercase,
+          fontWeight,
+          spacing
+        } = this.$props;
+
+        return {
+          color,
+          underline,
+          uppercase,
+          fontWeight,
+          spacing,
+          [this.$props.tagName]: true
+        };
+      },
+
+      /**
+       * Returns an Object of class modifiers for the inner wrapper.
+       *
+       * @returns {Object}
+       */
+      innerModifiers() {
+        const {
+          color,
+          spacing
+        } = this.$props;
+
+        return {
+          color,
+          spacing
+        };
+      }
+    },
     // watch: {},
 
     // beforeCreate() {},
@@ -109,48 +155,13 @@
     // destroyed() {},
 
     // methods: {},
-
-    /**
-     * Creates a heading element.
-     *
-     * @param {Function} createElement - Vue helper.
-     *
-     * @returns {*}
-     */
-    render(createElement) {
-      const element = this.$props.tagName;
-      const attributes = {
-        class: this.b({
-          color: this.$props.color,
-          underline: this.$props.underline,
-          uppercase: this.$props.uppercase,
-          fontWeight: this.$props.fontWeight,
-          spacing: this.$props.spacing,
-          [this.$props.tagName]: true
-        }),
-        attrs: {
-          ...this.$attrs,
-        },
-      };
-
-      const childAttributes = {
-        class: this.b('inner', { color: this.$props.color, spacing: this.$props.spacing }),
-      };
-
-      return createElement(
-        element,
-        attributes,
-        [
-          createElement('span', childAttributes, this.$slots.default)
-        ],
-      );
-    },
+    // render() {},
   };
 </script>
 
 <style lang="scss">
   .e-heading {
-    @include font($font-size--18, 22px, $font-weight--regular);
+    @include font($font-size--36, 22px, $font-weight--regular);
 
     display: block;
 
@@ -196,11 +207,11 @@
     }
 
     &--h1 {
-      @include font($font-size--18);
+      @include font($font-size--36);
     }
 
     &--h2 {
-      @include font($font-size--16);
+      @include font($font-size--24);
     }
 
     &--h3 {
@@ -235,20 +246,8 @@
       font-weight: $font-weight--bold;
     }
 
-    &--color-blue {
-      color: $color-secondary--1;
-
-      a {
-        color: $color-secondary--1;
-      }
-    }
-
-    &--color-gray {
-      color: $color-grayscale--400;
-
-      a {
-        color: $color-grayscale--400;
-      }
+    &--color-white {
+      color: $color-grayscale--1000;
     }
   }
 </style>

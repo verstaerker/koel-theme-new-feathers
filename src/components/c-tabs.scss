@@ -25,7 +25,7 @@
   &-tab-a,
   &-tab-a:hover,
   &-tab-a:focus {
-    @include font($font-size--18, 23px);
+    @include font($font-size--36, 23px);
 
     display: block;
     padding: $spacing--15 0;

@@ -56,4 +56,22 @@ export default class Song extends Model {
   get runtime() {
     return getRuntime(this.length);
   }
+
+  /**
+   * Gets the name of the related artist.
+   *
+   * @returns {String}
+   */
+  get artistName() {
+    return (Artist.find(this.artist_id) || {}).name;
+  }
+
+  /**
+   * Gets the name of the related album.
+   *
+   * @returns {String}
+   */
+  get albumName() {
+    return (Album.find(this.album_id) || {}).name;
+  }
 }

@@ -47,12 +47,12 @@ Please make sure that you use the defined SCSS mixins for font, font-size and li
 <span style="font-size:14px;">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</span>
 ```
 
-**$font-size--16**
+**$font-size--24**
 ```
 <span style="font-size:16px;">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</span>
 ```
 
-**$font-size--18**
+**$font-size--36**
 ```
 <span style="font-size:18px;">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</span>
 ```

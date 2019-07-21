@@ -7,11 +7,11 @@ body {
 }
 
 h1 {
-  @include font($font-size--18);
+  @include font($font-size--36);
 }
 
 h2 {
-  @include font($font-size--16);
+  @include font($font-size--24);
 }
 
 h3 {

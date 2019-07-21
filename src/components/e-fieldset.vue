@@ -59,7 +59,7 @@
 <style lang="scss">
   .e-fieldset {
     &__legend {
-      @include font($font-size--18, 22px, $font-weight--regular);
+      @include font($font-size--36, 22px, $font-weight--regular);
 
       color: $color-secondary--1;
       margin-bottom: $spacing--0;
