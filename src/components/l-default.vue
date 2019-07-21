@@ -84,11 +84,11 @@
     flex-direction: column;
     height: 100%;
     overflow-x: hidden;
-    padding: 0 0 $spacing--50;
 
     @include media(md) {
       flex-direction: row;
       justify-content: center;
+      padding-bottom: $spacing--50;
     }
 
     &__header {
@@ -110,6 +110,7 @@
     }
 
     &__content {
+      flex: 1;
       width: 100%;
       overflow-y: auto;
       overflow-x: hidden;
