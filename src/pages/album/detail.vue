@@ -87,6 +87,7 @@
     &__album-cover {
       width: 20%;
       max-width: 200px;
+      height: 100%; // Keep ratio
       margin-right: $spacing--40;
     }
   }

@@ -87,12 +87,19 @@
 
     &__navigation {
       @extend %list-reset;
+
+      display: flex;
+      justify-content: space-around;
+
+      @include media(md) {
+        display: block;
+      }
     }
 
     &__link {
       display: flex;
       align-items: center;
-      padding: $spacing--20 0;
+      padding: $spacing--20;
     }
 
     &__link-label {

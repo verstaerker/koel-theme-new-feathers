@@ -1,11 +1,19 @@
 <template>
   <div :class="b()">
-    <div :class="b('album-list', { minimized: !isActive })">
+    <section :class="b('album-list', { minimized: !isActive })">
+      <header :class="b('header')">
+        <e-input
+          v-model.trim="searchTerm"
+          name="Search"
+          type="search"
+          placeholder="Search..."
+        />
+      </header>
       <c-album-grid
         :albums="albums"
         :minimized="!isActive"
       />
-    </div>
+    </section>
     <transition name="route-slide">
       <div v-if="this.$route.params.albumId" :class="b('detail')">
         <router-view />
@@ -28,13 +36,22 @@
     // mixins: [],
 
     // props: {},
-    // data() {
-    //   return {};
-    // },
+    data() {
+      return {
+        searchTerm: '',
+      };
+    },
 
     computed: {
       albums() {
-        return Album.all();
+        const searchTerm = this.searchTerm.toLowerCase();
+
+        return searchTerm
+          ? Album
+            .query()
+            .where('name', value => value.toLowerCase().includes(searchTerm))
+            .get()
+          : Album.all();
       },
       isActive() {
         const { matched } = this.$route;
@@ -65,6 +82,10 @@
   .albums {
     display: flex;
     flex-direction: row;
+
+    &__header {
+      padding-bottom: $spacing--20;
+    }
 
     &__album-list {
       flex: 1 1 percentage(1 / 3);

@@ -1,31 +1,43 @@
 <template>
-  <table :class="b()">
-    <thead>
-      <tr>
-        <th
-          v-for="column in tableColumns"
-          :key="column.field"
-          :style="column.style"
-        >
-          {{ column.header }}
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="song in songs" :key="song.$id">
-        <td
-          v-for="column in tableColumns"
-          :key="column.field"
-          :class="b('cell')"
-        >
-          <span :class="b('cell-inner')" :title="song[column.field]">{{ song[column.field] }}</span>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <section :class="b()">
+    <header :class="b('header')">
+      <e-input
+        v-model.trim="searchTerm"
+        name="Search"
+        type="search"
+        placeholder="Search..."
+      />
+    </header>
+    <table :class="b('table')">
+      <thead>
+        <tr>
+          <th
+            v-for="column in tableColumns"
+            :key="column.field"
+            :style="column.style"
+          >
+            {{ column.header }}
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="song in songs" :key="song.$id">
+          <td
+            v-for="column in tableColumns"
+            :key="column.field"
+            :class="b('cell')"
+          >
+            <span :class="b('cell-inner')" :title="song[column.field]">{{ song[column.field] }}</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
 </template>
 
 <script>
+  import Song from '@/store/models/Song';
+
   export default {
     name: 'c-song-list',
     // status: 1,
@@ -97,6 +109,7 @@
 
           return column;
         }),
+        searchTerm: ''
       };
     },
 
@@ -108,7 +121,13 @@
        */
       songs() {
         const { sortBy } = this;
-        let songs = this.$store.getters['entities/song/all']();
+        const searchTerm = this.searchTerm.toLowerCase();
+        let songs = searchTerm
+          ? Song // TODO: maybe it would be better to use an Accessor on the model to create the search reference.
+            .query()
+            .where(song => Object.values(song).join(' ').toLowerCase().includes(searchTerm))
+            .get()
+          : Song.all();
 
         if (Array.isArray(this.filters)) {
           this.filters.forEach((filter) => {
@@ -139,8 +158,10 @@
 
 <style lang="scss">
   .c-song-list {
-    width: 100%;
-    table-layout: fixed;
+    &__table {
+      width: 100%;
+      table-layout: fixed;
+    }
 
     &__cell {
       position: relative;

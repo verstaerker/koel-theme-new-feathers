@@ -1,17 +1,17 @@
 <template>
   <div :class="b()">
-    <div :class="b('inner')">
+    <header :class="b('header')">
+      <div :class="b('player')">
+        <c-player />
+      </div>
       <nav :class="b('nav')">
         <c-navigation :items="navigation" :minimized="$route.fullPath !== '/'" />
       </nav>
-      <main v-if="$route.fullPath !== '/'" :class="b('content')">
-        <c-notification-container />
-        <slot></slot>
-      </main>
-    </div>
-    <footer :class="b('footer')">
-      <c-player />
-    </footer>
+    </header>
+    <main v-if="$route.fullPath !== '/'" :class="b('content')">
+      <c-notification-container />
+      <slot></slot>
+    </main>
     <portal-target name="modal-container" multiple />
   </div>
 </template>
@@ -80,33 +80,58 @@
 
 <style lang="scss">
   .l-default {
+    display: flex;
+    flex-direction: column;
     height: 100%;
+    overflow-x: hidden;
+    padding: 0 0 $spacing--50;
 
-    &__inner {
-      display: flex;
+    @include media(md) {
       flex-direction: row;
       justify-content: center;
-      height: 100%;
-      overflow-x: hidden;
-      padding: $spacing--40 0;
+    }
+
+    &__header {
+      order: 1;
+      margin-top: auto;
+
+      @include media(md) {
+        margin-top: 0;
+        display: flex;
+        order: initial;
+      }
+    }
+
+    &__nav {
+      @include media(md) {
+        display: flex;
+        align-items: center;
+      }
     }
 
     &__content {
       width: 100%;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: $spacing--40 $spacing--20 0;
+
+      @include media(md) {
+        padding-bottom: $spacing--50; // Spacing player
+      }
     }
 
-    &__nav {
-      display: flex;
-      align-items: center;
-      padding: $spacing--10;
-    }
+    &__player {
+      border-bottom: 1px solid $color-grayscale--200;
+      padding-bottom: $spacing--10;
 
-    &__footer {
-      position: fixed;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      background-color: $color-grayscale--100;
+      @include media(md) {
+        border: 0;
+        position: fixed; // TODO: would be nicer it this could be done with flexbox or grid
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background-color: $color-grayscale--100;
+      }
     }
   }
 </style>
