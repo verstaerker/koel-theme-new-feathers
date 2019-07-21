@@ -6,6 +6,11 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+body {
+  background-image: url("/src/assets/background.jpg");
+  background-size: cover;
+}
+
 h1 {
   @include font($font-size--36);
 }

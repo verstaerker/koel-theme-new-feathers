@@ -71,24 +71,47 @@
     }
 
     &__cover {
-      position: relative;
+      display: flex;
+      align-items: center;
+
+      @include media(md) {
+        display: block;
+        position: relative;
+      }
     }
 
     &__cover-image {
-      max-width: 100%;
+      width: 25%;
+      max-width: 50px;
+      margin-right: $spacing--10;
+
+      @include media(md) {
+        width: auto;
+        max-width: 100%;
+      }
     }
 
     &__name {
-      position: absolute;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      padding: $spacing--5;
-      background: rgba($color-grayscale--0, 0.5);
+      position: static;
+      opacity: 1;
+      background: transparent;
       color: $color-grayscale--700;
-      text-align: center;
-      opacity: 0;
-      transition: opacity 0.5s;
+      text-align: left;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+
+      @include media(md) {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        padding: $spacing--5;
+        background: rgba($color-grayscale--0, 0.5);
+        text-align: center;
+        opacity: 0;
+        transition: opacity 0.5s;
+      }
     }
 
     &--list {

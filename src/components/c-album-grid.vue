@@ -69,9 +69,11 @@
 
     @extend %list-reset;
 
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    grid-gap: $spacing--20;
+    @include media(md) {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      grid-gap: $spacing--20;
+    }
 
     &__item {
       max-width: 100%;
