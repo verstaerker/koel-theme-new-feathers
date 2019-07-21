@@ -22,7 +22,7 @@
     // props: {},
     data() {
       return {
-        columns: ['title', 'runtime', 'artistName', 'albumName'],
+        columns: ['title', 'artistName', 'albumName', 'runtime'],
         selectedSongs: null,
       };
     },
