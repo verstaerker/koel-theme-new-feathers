@@ -1,5 +1,5 @@
 <template>
-  <h1 :is="tagName" :class="b(modifiers)" v-bind="$attrs">
+  <h1 :is="tag" :class="b(modifiers)" v-bind="$attrs">
     <span :class="b('inner', innerModifiers)">
       <slot></slot>
     </span>
@@ -33,11 +33,11 @@
       },
 
       /**
-       * Defines the tagname of the heading (h1-h6).
+       * Defines the tag of the heading (h1-h6).
        *
        * Valid values: `[h1, h2, h3, h4, h5, h6]`
        */
-      tagName: {
+      tag: {
         type: String,
         default: 'h1',
         validator(value) {
@@ -50,14 +50,6 @@
             'h6',
           ].includes(value);
         },
-      },
-
-      /**
-       * Defines if the heading should have an underline.
-       */
-      underline: {
-        type: Boolean,
-        default: false,
       },
 
       /**
@@ -120,7 +112,7 @@
           uppercase,
           fontWeight,
           spacing,
-          [this.$props.tagName]: true
+          [this.$props.tag]: true
         };
       },
 
@@ -161,8 +153,6 @@
 
 <style lang="scss">
   .e-heading {
-    @include font($font-size--36, 22px, $font-weight--regular);
-
     display: block;
 
     &__inner {
@@ -174,64 +164,8 @@
       text-decoration: none;
     }
 
-    &--underline &__inner {
-      border-bottom: 1px solid $color-primary--1;
-
-      @include media(sm) {
-        padding: $spacing--15 $spacing--20;
-      }
-    }
-
-    &--underline &__inner--color-gray {
-      border-bottom: 1px solid $color-grayscale--600;
-    }
-
-    &--underline &__inner--spacing-400 {
-      padding: $spacing--10 $spacing--20;
-    }
-
-    &--underline &__inner--spacing-500 {
-      padding: $spacing--15 $spacing--10;
-    }
-
-    &--underline &__inner--spacing-700 {
-      padding: $spacing--20 $spacing--20 $spacing--5;
-    }
-
-    &--underline &__inner--spacing-800 {
-      padding: $spacing--20 $spacing--25 $spacing--5;
-    }
-
     &--uppercase {
       text-transform: uppercase;
-    }
-
-    &--h1 {
-      @include font($font-size--36);
-    }
-
-    &--h2 {
-      @include font($font-size--24);
-    }
-
-    &--h3 {
-      @include font($font-size--14);
-    }
-
-    &--h4 {
-      @include font($font-size--14);
-
-      font-weight: $font-weight--bold;
-    }
-
-    &--h5 {
-      @include font($font-size--14);
-
-      font-weight: $font-weight--semi-bold;
-    }
-
-    &--h6 {
-      @include font($font-size--14);
     }
 
     &--font-weight-normal {

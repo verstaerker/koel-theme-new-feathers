@@ -3,13 +3,17 @@
     <figure :class="b('album')">
       <img :class="b('album-cover')" :src="album.cover">
       <figcaption>
-        <e-heading tag-name="h2">
+        <e-heading tag="h2">
           {{ album.name }}
+        </e-heading>
+        <e-heading tag="h3">
+          {{ album.albumArtist }}
         </e-heading>
       </figcaption>
     </figure>
     <c-song-list
       :filters="filters"
+      :columns="columns"
     />
   </div>
 </template>
@@ -33,7 +37,7 @@
     props: ['albumId'],
     data() {
       return {
-        columns: ['track', 'title', 'artist', 'runtime']
+        columns: ['track', 'title', 'artistName', 'runtime']
       };
     },
 

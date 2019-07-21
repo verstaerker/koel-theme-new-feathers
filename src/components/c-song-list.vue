@@ -1,16 +1,24 @@
 <template>
-  <table :class="b('')">
+  <table :class="b()">
     <thead>
       <tr>
-        <th v-for="column in tableColumns" :key="column.field">
+        <th
+          v-for="column in tableColumns"
+          :key="column.field"
+          :style="column.style"
+        >
           {{ column.header }}
         </th>
       </tr>
     </thead>
     <tbody>
       <tr v-for="song in songs" :key="song.$id">
-        <td v-for="column in tableColumns" :key="column.field">
-          {{ song[column.field] }}
+        <td
+          v-for="column in tableColumns"
+          :key="column.field"
+          :class="b('cell')"
+        >
+          <span :class="b('cell-inner')" :title="song[column.field]">{{ song[column.field] }}</span>
         </td>
       </tr>
     </tbody>
@@ -62,23 +70,33 @@
     },
     data() {
       const columns = {
-        track: this.$t('c-song-list.colTrack'),
-        runtime: this.$t('c-song-list.colRuntime'),
-        title: this.$t('c-song-list.colTitle'),
-        albumName: this.$t('c-song-list.colTrack'),
-        artistName: this.$t('c-song-list.colArtist'),
-        disc: this.$t('c-song-list.colDisc'),
+        track: { header: this.$t('c-song-list.colTrack'), width: 1, },
+        runtime: { header: this.$t('c-song-list.colRuntime'), width: 1 },
+        title: { header: this.$t('c-song-list.colTitle'), width: 3 },
+        albumName: { header: this.$t('c-song-list.colAlbum'), width: 3 },
+        artistName: { header: this.$t('c-song-list.colArtist'), width: 3 },
+        disc: { header: this.$t('c-song-list.colDisc'), width: 1 },
       };
+      const tableColumns = [];
+      let totalColumnWidth = 0;
+
+      this.$props.columns.forEach((column) => {
+        tableColumns.push({ field: column, ...columns[column] });
+        totalColumnWidth += columns[column].width;
+      });
 
       return {
         /**
          * An Array of columns which should be shown on the table.
          */
-        tableColumns: this.$props.columns.reduce((tableColumns, column) => {
-          tableColumns.push({ field: column, header: columns[column] });
+        tableColumns: tableColumns.map((column) => {
+          column.style = {
+            width: `${100 / totalColumnWidth * column.width}%`,
+            maxWidth: `${100 / totalColumnWidth * column.width}%`
+          };
 
-          return tableColumns;
-        }, []),
+          return column;
+        }),
       };
     },
 
@@ -122,5 +140,20 @@
 <style lang="scss">
   .c-song-list {
     width: 100%;
+    table-layout: fixed;
+
+    &__cell {
+      position: relative;
+      height: 1.6em;
+    }
+
+    &__cell-inner { // Tables don't allow to hide text overflow.
+      position: absolute;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      left: 0;
+      right: $spacing--10;
+    }
   }
 </style>

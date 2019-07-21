@@ -1,7 +1,14 @@
 <template>
-  <ul :class="b()">
-    <li v-for="album in albums" :key="album.id" :class="b('item')">
-      <c-album :album="album" />
+  <ul :class="b({ minimized })">
+    <li
+      v-for="album in albums"
+      :key="album.id"
+      :class="b('item', { active: album.id === $route.params.albumId })"
+    >
+      <c-album
+        :album="album"
+        :type="minimized ? 'list' : 'grid'"
+      />
     </li>
   </ul>
 </template>
@@ -27,6 +34,10 @@
       albums: {
         type: Array,
         required: true
+      },
+      minimized: {
+        type: Boolean,
+        default: false
       }
     },
     // data() {
@@ -54,6 +65,8 @@
 
 <style lang="scss">
   .c-album-grid {
+    $this: &;
+
     @extend %list-reset;
 
     display: grid;
@@ -66,6 +79,20 @@
 
     &__cover {
       max-width: 100%;
+    }
+
+    &--minimized {
+      display: block;
+
+      #{$this}__item {
+        &:hover {
+          background: $color-grayscale--200;
+        }
+
+        &--active {
+          background: $color-grayscale--200;
+        }
+      }
     }
   }
 </style>

@@ -1,7 +1,10 @@
 <template>
   <div :class="b()">
-    <div :class="b('album-list')">
-      <c-album-grid :albums="albums" />
+    <div :class="b('album-list', { minimized: !isActive })">
+      <c-album-grid
+        :albums="albums"
+        :minimized="!isActive"
+      />
     </div>
     <transition name="route-slide">
       <div v-if="this.$route.params.albumId" :class="b('detail')">
@@ -32,6 +35,11 @@
     computed: {
       albums() {
         return Album.all();
+      },
+      isActive() {
+        const { matched } = this.$route;
+
+        return matched[matched.length - 1].components.default.name === this.$options.name;
       }
     },
     // watch: {},
@@ -60,10 +68,16 @@
 
     &__album-list {
       flex: 1 1 percentage(1 / 3);
+
+      &--minimized {
+        max-width: percentage(1 / 3);
+      }
     }
 
     &__detail {
       flex: 1 1 percentage(2 / 3);
+      max-width: percentage(2 / 3);
+      margin-left: $spacing--20;
     }
   }
 </style>

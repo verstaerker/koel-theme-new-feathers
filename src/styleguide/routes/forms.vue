@@ -1,6 +1,6 @@
 <template>
   <div :class="b()">
-    <e-heading tag-name="h1">
+    <e-heading tag="h1">
       Example form
     </e-heading>
     <form action="#form-url" method="POST">

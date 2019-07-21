@@ -66,12 +66,12 @@
   "c-modal-header-01": {
     "closeTitle": "Fenster schliessen"
   },
-  "album": {
-    "detail": {
-      "colTitle": "Titel",
-      "colDisc": "Disk",
-      "colTrack": "Track",
-      "colRuntime": "Laufzeit"
-    }
+  "c-song-list": {
+    "colTitle": "Titel",
+    "colDisc": "Disk",
+    "colTrack": "Track",
+    "colRuntime": "Laufzeit",
+    "colAlbum": "Album",
+    "colArtist": "Artist"
   }
 }

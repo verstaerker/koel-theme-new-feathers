@@ -1,5 +1,5 @@
 <template>
-  <div :class="b()">
+  <div :class="b({ [type]: true })">
     <router-link :to="{ name: 'albumDetail', params: { albumId: album.$id }}">
       <figure :class="b('cover')">
         <img :class="b('cover-image')" :src="album.cover" :alt="`Cover for '${album.name}`">
@@ -31,6 +31,10 @@
       album: {
         type: Object,
         required: true
+      },
+      type: {
+        type: String,
+        default: 'grid'
       }
     },
     // data() {
@@ -85,6 +89,29 @@
       text-align: center;
       opacity: 0;
       transition: opacity 0.5s;
+    }
+
+    &--list {
+      #{$this}__cover {
+        display: flex;
+        align-items: center;
+      }
+
+      #{$this}__cover-image {
+        width: 25%;
+        max-width: 50px;
+        margin-right: $spacing--10;
+      }
+
+      #{$this}__name {
+        position: static;
+        opacity: 1;
+        background: transparent;
+        text-align: left;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
     }
   }
 </style>

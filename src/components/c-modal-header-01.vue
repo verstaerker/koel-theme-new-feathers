@@ -19,7 +19,7 @@
         />
       </div>
       <div :class="b('title')">
-        <e-heading v-if="title" :underline="!isMobile" tag-name="h1">
+        <e-heading v-if="title" :underline="!isMobile" tag="h1">
           {{ title }}
         </e-heading>
       </div>
