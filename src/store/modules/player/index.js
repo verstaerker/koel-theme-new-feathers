@@ -5,6 +5,16 @@ export default {
      * The current playlist.
      */
     playlist: [],
+
+    currentIndex: 0,
+
+    previous: null,
+
+    current: null,
+
+    next: null,
+
+    isPlaying: false,
   },
   getters: {
     /**
@@ -23,7 +33,15 @@ export default {
      *
      * @returns {*}
      */
-    getCurrentSong: state => state.playlist[0],
+    getCurrentSong: state => state.playlist[state.currentIndex],
+
+    getPreviousSong: state => state.playlist[state.currentIndex - 1],
+
+    getNextSong: state => state.playlist[state.currentIndex + 1],
+
+    getIsPlaying: state => state.isPlaying,
+
+    hasMoreSongs: state => !!state.playlist[state.currentIndex + 1],
   },
   mutations: {
     setPlaylist(state, songs) {
@@ -33,10 +51,24 @@ export default {
 
       state.playlist = songs;
     },
-    nextSong(state) {
-      state.playlist = state.playlist.slice(1);
+    setCurrentIndex(state, index) {
+      state.currentIndex = index;
+    },
+    nextSong(state) { // TODO: the list should not be modified
+      state.currentIndex += 1;
+    },
+    setIsPlaying(state, isPlaying) {
+      state.isPlaying = isPlaying === true;
     }
   },
-  // actions: {},
+  actions: {
+    replacePlaylist({ commit }, { playlist, playIndex, autoPlay }) {
+      commit('setIsPlaying', autoPlay);
+
+      commit('setPlaylist', playlist);
+
+      commit('setCurrentIndex', playIndex || 0);
+    }
+  },
   // modules: [],
 };
