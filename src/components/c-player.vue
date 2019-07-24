@@ -5,19 +5,52 @@
         <div :class="b('progress-indicator', { transition: !isSearching })" :style="{ width: progress }"></div>
       </div>
     </div>
-    <div :class="b('controls')">
-      <e-button :disabled="!getCurrentSong">
-        Previous
-      </e-button>
-      <e-button :disabled="!getCurrentSong"
-                :progress="isLoading"
-                @click="onPlayClick"
-      >
-        Play
-      </e-button>
-      <e-button :disabled="!getCurrentSong">
-        Next
-      </e-button>
+    <div :class="b('main')">
+      <div :class="b('controls', { left: true })">
+        <img
+          v-if="album"
+          :class="b('album-cover')"
+          :src="album.cover"
+          alt="album.title"
+        >
+      </div>
+      <div :class="b('controls', { center: true })">
+        <e-circular-button
+          :class="b('control', { previous: true })"
+          :disabled="!getCurrentSong"
+          :title="$t('c-player.previous')"
+          :width="30"
+          :height="30"
+          icon="i-fast-backward"
+        />
+        <e-circular-button
+          :class="b('control', { play: true })"
+          :disabled="!getCurrentSong"
+          :title="$t('c-player.play')"
+          icon="i-play"
+          @click="onPlayClick"
+        />
+        <e-circular-button
+          :class="b('control', { next: true })"
+          :disabled="!getCurrentSong"
+          :title="$t('c-player.next')"
+          :width="30"
+          :height="30"
+          icon="i-fast-forward"
+        />
+      </div>
+      <div :class="b('controls', { right: true })">
+        <button
+          v-if="Array.isArray(getPlaylist) && getPlaylist.length"
+          :class="b('playlist-toggle')"
+          @click="onTogglePlaylist"
+        >
+          <e-icon icon="i-list" width="20" height="20" />
+        </button>
+      </div>
+    </div>
+    <div v-if="isPlaylistVisible" :class="b('playlist-wrapper')">
+      <c-song-list :songs="getPlaylist" :show-header="false" />
     </div>
     <audio ref="current"
            :src="src"
@@ -27,7 +60,6 @@
            @play="onPlay"
            @timeupdate="onTimeUpdate"
            @loadeddata="onLoadedData"
-           @waiting="onWaiting"
     ></audio>
     <audio ref="next"
            :src="nextSrc"
@@ -38,9 +70,13 @@
 
 <script>
   import { mapGetters, mapMutations } from 'vuex';
+  import Album from '@/store/models/Album';
+  import ECircularButton from '@/components/e-circular-button';
+  import CSongList from '@/components/c-song-list';
 
   export default {
     name: 'c-player',
+    components: { CSongList, ECircularButton },
     // status: 1,
 
     // components: {},
@@ -54,6 +90,7 @@
         isLoading: false,
         preload: false,
         isSearching: false,
+        isPlaylistVisible: false,
       };
     },
 
@@ -77,6 +114,13 @@
         }
 
         return `//localhost:8888${this.$t('api.root') + this.$t('api.play', { songId: song.id })}?jwt-token=${this.getToken}`;
+      },
+      album() {
+        if (!this.getCurrentSong) {
+          return null;
+        }
+
+        return Album.find(this.getCurrentSong.album_id);
       },
       nextSrc() {
         const song = this.getNextSong;
@@ -111,20 +155,65 @@
         'setIsPlaying',
         'nextSong',
       ]),
+
+      /**
+       * Callback for when the audio track finished playing.
+       */
       onEnded() {
         if (this.hasMoreSongs) {
           this.nextSong();
+
+          this.togglePlay(true);
         }
+
+        this.preload = false;
       },
-      onPlayClick() {
-        this.togglePlay();
-      },
+
+      /**
+       * Callback for when the audio track paused.
+       */
       onPause() {
         this.setIsPlaying(false);
       },
+
+      /**
+       * Callback for when the audio track is playing.
+       */
       onPlay() {
         this.setIsPlaying(true);
       },
+
+      /**
+       * Callback for when the currentTime of the audio track changes.
+       */
+      onTimeUpdate() {
+        this.currentTime = (this.$refs.current && this.$refs.current.currentTime) || 0;
+      },
+
+      /**
+       * Callback for when the audio track finished loading.
+       */
+      onLoadedData() {
+        this.duration = this.$refs.current.duration || 0;
+        this.isLoading = false;
+        this.preload = true;
+
+        this.togglePlay(this.getIsPlaying);
+      },
+      // onWaiting() {},
+
+      /**
+       * Callback for the play button.
+       */
+      onPlayClick() {
+        this.togglePlay();
+      },
+
+      /**
+       * Toggle play state.
+       *
+       * @param {Boolean} [play = !this.getIsPlaying] - A flag to force a certain play state.
+       */
       togglePlay(play = !this.getIsPlaying) {
         if (play) {
           this.$refs.current.play();
@@ -134,19 +223,12 @@
 
         this.setIsPlaying(play);
       },
-      onTimeUpdate() {
-        this.currentTime = this.$refs.current.currentTime || 0;
-      },
-      onLoadedData() {
-        this.duration = this.$refs.current.duration || 0;
-        this.isLoading = false;
-        this.preload = true;
 
-        this.togglePlay(this.getIsPlaying);
-      },
-      onWaiting() {
-        this.isLoading = true;
-      },
+      /**
+       * Callback for progress bar clicks.
+       *
+       * @param {MouseEvent} event - The native mouse event.
+       */
       onProgressClick(event) {
         const { clientX } = event;
         const progressWidth = this.$refs.progress.offsetWidth;
@@ -159,8 +241,12 @@
 
           setTimeout(() => {
             this.isSearching = false;
-          }, 100);
+          }, 201); // Needs to be higher than transition
         });
+      },
+
+      onTogglePlaylist() {
+        this.isPlaylistVisible = !this.isPlaylistVisible;
       }
     },
     // render() {},
@@ -170,7 +256,7 @@
 <style lang="scss">
   .c-player {
     &__progress-wrapper {
-      padding: $spacing--10 0;
+      padding-bottom: $spacing--10;
       cursor: pointer;
     }
 
@@ -200,13 +286,49 @@
       }
 
       &--transition {
-        transition: width 1s;
+        transition: width 200ms;
       }
     }
 
-    &__controls {
+    &__main {
       display: flex;
-      justify-content: center;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 $spacing--20;
+    }
+
+    &__controls {
+      width: percentage(1 / 3);
+
+      &--center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      &--right {
+        display: flex;
+        justify-content: flex-end;
+      }
+    }
+
+    &__control--play {
+      margin: 0 $spacing--25;
+    }
+
+    &__playlist-wrapper {
+      padding: $spacing--20;
+      max-height: 50vh;
+      overflow: auto;
+    }
+
+    &__playlist-toggle {
+      @extend %button-reset;
+    }
+
+    &__album-cover {
+      max-width: 50px;
+      height: auto;
     }
   }
 </style>

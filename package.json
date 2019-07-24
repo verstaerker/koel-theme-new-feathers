@@ -110,7 +110,7 @@
     "vue-jest": "^3.0.4",
     "vue-loader": "^15.7.0",
     "vue-markdown-loader": "^2.4.1",
-    "vue-styleguidist": "^3.14.2",
+    "vue-styleguidist": "^3.17.0",
     "vue-template-compiler": "^2.6.10",
     "webpack": "^4.33.0",
     "webpack-clean": "^1.2.3",

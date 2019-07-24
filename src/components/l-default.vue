@@ -92,6 +92,7 @@
     }
 
     &__header {
+      background: $color-grayscale--100;
       order: 1;
       margin-top: auto;
 
@@ -126,6 +127,7 @@
       padding-bottom: $spacing--10;
 
       @include media(md) {
+        z-index: 1;
         border: 0;
         position: fixed; // TODO: would be nicer it this could be done with flexbox or grid
         right: 0;

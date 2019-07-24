@@ -1,6 +1,6 @@
 <template>
   <section :class="b()">
-    <header :class="b('header')">
+    <header v-if="showHeader" :class="b('header')">
       <e-input
         v-model.trim="searchTerm"
         name="Search"
@@ -22,7 +22,7 @@
       </thead>
       <tbody>
         <tr
-          v-for="song in songs"
+          v-for="song in songList"
           :key="song.$id"
           :class="b('row', { active: song === getCurrentSong })"
           tabindex="0"
@@ -96,6 +96,21 @@
       sortBy: {
         type: String,
         default: 'track'
+      },
+
+      /**
+       * An alternative list of songs. Default are all available songs.
+       *
+       * Prefer 'filters' if possible.
+       */
+      songs: {
+        type: Array,
+        default: null,
+      },
+
+      showHeader: {
+        type: Boolean,
+        default: true,
       }
     },
     data() {
@@ -141,7 +156,11 @@
        *
        * @returns {Array.<Object>}
        */
-      songs() {
+      songList() {
+        if (this.songs) {
+          return this.songs;
+        }
+
         const { sortBy } = this;
         const searchTerm = this.searchTerm.toLowerCase();
         let songs = searchTerm
@@ -180,8 +199,8 @@
 
       onPlayClick(song) {
         this.replacePlaylist({
-          playlist: this.songs,
-          playIndex: this.songs.indexOf(song),
+          playlist: this.songList,
+          playIndex: this.songList.indexOf(song),
           autoPlay: true,
         });
       },

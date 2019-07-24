@@ -72,6 +72,12 @@
     "colTrack": "Track",
     "colRuntime": "Laufzeit",
     "colAlbum": "Album",
-    "colArtist": "Artist"
+    "colArtist": "Artist",
+    "play": "Abspielen"
+  },
+  "c-player": {
+    "play": "Abspielen",
+    "next": "Nächster Song",
+    "previous": "Vorheriger Song"
   }
 }
