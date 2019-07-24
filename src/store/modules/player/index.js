@@ -54,8 +54,11 @@ export default {
     setCurrentIndex(state, index) {
       state.currentIndex = index;
     },
-    nextSong(state) { // TODO: the list should not be modified
+    nextSong(state) {
       state.currentIndex += 1;
+    },
+    previousSong(state) {
+      state.currentIndex -= 1;
     },
     setIsPlaying(state, isPlaying) {
       state.isPlaying = isPlaying === true;

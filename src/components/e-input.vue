@@ -342,15 +342,16 @@
     &__field {
       @include font($font-size--14, 18px);
 
-      border: 1px solid $color-secondary--1;
       border-radius: $border-radius--default;
-      color: $color-secondary--1;
+      border: 0;
+      color: $color-grayscale--1000;
       font-family: $font-family--primary;
       height: $e-input-height;
       position: relative;
       transition: box-shadow $transition-duration-200 ease-in-out;
       width: 100%;
       padding: $spacing--5 $spacing--10;
+      background: rgba(255, 255, 255, 0.2);
 
       // disable iPhone styling
       -webkit-appearance: none;
@@ -461,7 +462,6 @@
     &--disabled:not(&--border-0) &__field,
     &--disabled &__field:hover,
     &--disabled:not(&--border-0) &__field:hover {
-      background-color: $color-grayscale--1000;
       border-color: $color-grayscale--600;
       color: $color-grayscale--450;
 

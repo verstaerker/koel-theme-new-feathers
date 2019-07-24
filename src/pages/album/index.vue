@@ -82,6 +82,7 @@
   .albums {
     display: flex;
     flex-direction: row;
+    max-height: 100%;
 
     &__header {
       padding-bottom: $spacing--20;
@@ -99,6 +100,7 @@
       flex: 1 1 percentage(2 / 3);
       max-width: percentage(2 / 3);
       margin-left: $spacing--20;
+      overflow: auto;
     }
   }
 </style>

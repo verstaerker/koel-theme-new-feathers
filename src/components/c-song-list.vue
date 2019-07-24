@@ -213,6 +213,10 @@
   .c-song-list {
     $this: &;
 
+    &__header {
+      margin-bottom: $spacing--20;
+    }
+
     &__table {
       width: 100%;
       table-layout: fixed;

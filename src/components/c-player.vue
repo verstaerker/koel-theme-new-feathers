@@ -22,6 +22,7 @@
           :width="30"
           :height="30"
           icon="i-fast-backward"
+          @click="previousSong"
         />
         <e-circular-button
           :class="b('control', { play: true })"
@@ -37,6 +38,7 @@
           :width="30"
           :height="30"
           icon="i-fast-forward"
+          @click="nextSong"
         />
       </div>
       <div :class="b('controls', { right: true })">
@@ -52,6 +54,12 @@
     <div v-if="isPlaylistVisible" :class="b('playlist-wrapper')">
       <c-song-list :songs="getPlaylist" :show-header="false" />
     </div>
+    <audio ref="previous"
+           :src="previousSrc"
+           preload
+           @loadeddata="onLoadedData('previous')"
+           @loadstart="onLoadStart('previous')"
+    ></audio>
     <audio ref="current"
            :src="src"
            preload
@@ -59,11 +67,15 @@
            @pause="onPause"
            @play="onPlay"
            @timeupdate="onTimeUpdate"
-           @loadeddata="onLoadedData"
+           @canplaythrough="onCanPlayThrough"
+           @loadeddata="onLoadedData('current')"
+           @loadstart="onLoadStart('current')"
     ></audio>
     <audio ref="next"
            :src="nextSrc"
            preload
+           @loadeddata="onLoadedData('next')"
+           @loadstart="onLoadStart('next')"
     ></audio>
   </div>
 </template>
@@ -87,8 +99,9 @@
       return {
         currentTime: 0,
         duration: 0,
-        isLoading: false,
-        preload: false,
+        isLoadingForCurrent: true,
+        isLoadingForNext: true,
+        isLoadingForPrevious: true,
         isSearching: false,
         isPlaylistVisible: false,
       };
@@ -125,7 +138,16 @@
       nextSrc() {
         const song = this.getNextSong;
 
-        if (!this.preload || !song) {
+        if (this.isLoadingForCurrent || !song) {
+          return '';
+        }
+
+        return `//localhost:8888${this.$t('api.root') + this.$t('api.play', { songId: song.id })}?jwt-token=${this.getToken}`;
+      },
+      previousSrc() {
+        const song = this.getPreviousSong;
+
+        if (this.isLoadingForCurrent || this.isLoadingForNext || !song) {
           return '';
         }
 
@@ -154,7 +176,26 @@
       ...mapMutations('player', [
         'setIsPlaying',
         'nextSong',
+        'previousSong',
       ]),
+
+      updateLoadingState(type, state) {
+        switch (type) {
+          case 'current':
+            this.isLoadingForCurrent = state;
+            break;
+
+          case 'next':
+            this.isLoadingForNext = state;
+            break;
+
+          case 'previous':
+            this.isLoadingForPrevious = state;
+            break;
+
+          // no default
+        }
+      },
 
       /**
        * Callback for when the audio track finished playing.
@@ -166,7 +207,7 @@
           this.togglePlay(true);
         }
 
-        this.preload = false;
+        this.updateLoadingState('current', true);
       },
 
       /**
@@ -193,14 +234,18 @@
       /**
        * Callback for when the audio track finished loading.
        */
-      onLoadedData() {
+      onCanPlayThrough() {
         this.duration = this.$refs.current.duration || 0;
-        this.isLoading = false;
-        this.preload = true;
 
         this.togglePlay(this.getIsPlaying);
       },
-      // onWaiting() {},
+      onLoadedData(type) {
+        this.updateLoadingState(type, false);
+      },
+
+      onLoadStart(type) {
+        this.updateLoadingState(type, true);
+      },
 
       /**
        * Callback for the play button.
@@ -247,7 +292,7 @@
 
       onTogglePlaylist() {
         this.isPlaylistVisible = !this.isPlaylistVisible;
-      }
+      },
     },
     // render() {},
   };
