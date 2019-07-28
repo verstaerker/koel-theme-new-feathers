@@ -9,6 +9,11 @@ export default {
      * @type {String} Stores the session token.
      */
     token: null,
+
+    /**
+     * @type {Object} Stores the koel settings.
+     */
+    settings: null,
   },
   getters: {
     /**
@@ -19,6 +24,15 @@ export default {
      * @returns {String|null}
      */
     getToken: state => state.token,
+
+    /**
+     * Returns the current koel konfiguration.
+     *
+     * @param {Object} state - The current module store state.
+     *
+     * @returns {Object}
+     */
+    getSettings: state => state.settings || {},
   },
   mutations: {
     /**
@@ -30,6 +44,31 @@ export default {
     setToken(state, token) {
       state.token = token;
     },
+
+    /**
+     * Sets new koel settings.
+     *
+     * @param {Object} state - Current state object.
+     * @param {Object} settings - The new koel settings.
+     * @param {String} settings.mediaPath - The absolute path to the music files.
+     */
+    setSettings(state, settings) {
+      state.settings = settings;
+    },
+
+    /**
+     * Sets the new media path value for the koel settings.
+     *
+     * @param {Object} state - Current state object.
+     * @param {String} mediaPath - The new media path value.
+     */
+    setMediaPath(state, mediaPath) {
+      if (!state.settings) {
+        state.settings = {};
+      }
+
+      state.settings.mediaPath = mediaPath;
+    }
   },
   actions: {
     /**
@@ -73,6 +112,20 @@ export default {
 
       commit('setToken', null);
       dispatch('clearStore', null, VUEX_ROOT_COMMIT_CONFIG);
+    },
+
+    /**
+     * Maps and sets the koel settings from the server.
+     *
+     * @param {Object} context - The Vuex module context.
+     * @param {Function} context.commit - The commit method for the current Vuex module
+     * @param {Object} settings - The koel settings response.
+     * @param {String} settings.media_path - The media path from the koel settings.
+     */
+    settings({ commit }, { media_path: mediaPath }) {
+      commit('setSettings', {
+        mediaPath
+      });
     }
   },
 };

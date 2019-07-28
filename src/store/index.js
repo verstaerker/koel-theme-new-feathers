@@ -38,13 +38,14 @@ export default new Vuex.Store({
     /**
      * Get the user related data from Koel.
      */
-    getData() {
+    getData({ dispatch }) {
       get('/api/data')
         .then((response) => {
           const {
             albums,
             songs,
             artists,
+            settings,
           } = response || {};
 
           if (albums) {
@@ -57,6 +58,10 @@ export default new Vuex.Store({
 
           if (songs) {
             Song.insert({ data: songs });
+          }
+
+          if (settings) {
+            dispatch('session/settings', settings);
           }
         });
     },

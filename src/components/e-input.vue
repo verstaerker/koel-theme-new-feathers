@@ -343,7 +343,7 @@
       @include font($font-size--14, 18px);
 
       border-radius: $border-radius--default;
-      border: 0;
+      border: 1px solid transparent;
       color: $color-grayscale--1000;
       font-family: $font-family--primary;
       height: $e-input-height;

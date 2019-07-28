@@ -23,5 +23,19 @@ export default function post(url, payload, config) {
     },
     body: JSON.stringify(payload)
   })
-    .then(response => response.json());
+    .then(response => response.json())
+    .catch((error) => {
+      switch (error.status) {
+        case 401:
+          // Falls through
+
+        case undefined: // eslint-disable-line no-undefined
+          // eslint-disable-next-line no-console
+          console.error('POST failed.', error); // TODO: add visible error notification.
+
+          store.dispatch('session/logout');
+
+        // no default
+      }
+    });
 }

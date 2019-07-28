@@ -3,6 +3,7 @@ import album from '../pages/album/index';
 import artist from '../pages/artist/index';
 import song from '../pages/song/index';
 import albumDetail from '../pages/album/detail';
+import settings from '../pages/settings/index';
 
 const root = '/';
 
@@ -42,6 +43,15 @@ export const navigation = {
       title: 'Songs',
       icon: 'i-music-note'
     },
+  },
+  settings: {
+    path: 'settings',
+    name: 'settings',
+    component: settings,
+    meta: {
+      title: 'Einstellungen',
+      icon: 'i-house',
+    }
   }
 };
 
@@ -68,6 +78,7 @@ export default [
       },
       navigation.artists,
       navigation.songs,
+      navigation.settings,
     ]
   },
   {

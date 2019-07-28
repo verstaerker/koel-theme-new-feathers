@@ -69,6 +69,8 @@
 
     @extend %list-reset;
 
+    overflow: auto;
+
     @include media(md) {
       display: grid;
       grid-template-columns: repeat(5, 1fr);

@@ -30,9 +30,18 @@ export default function get(url, payload, config) {
 
       return Promise.reject(response);
     })
-    .catch((response) => {
-      if (response.status === 401) {
-        store.dispatch('session/logout');
+    .catch((error) => {
+      switch (error.status) {
+        case 401:
+          // Falls through
+
+        case undefined: // eslint-disable-line no-undefined
+          // eslint-disable-next-line no-console
+          console.error('POST failed.', error); // TODO: add visible error notification.
+
+          store.dispatch('session/logout');
+
+          // no default
       }
     });
 }

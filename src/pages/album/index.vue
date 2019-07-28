@@ -89,6 +89,8 @@
     }
 
     &__album-list {
+      display: flex;
+      flex-direction: column;
       flex: 1 1 percentage(1 / 3);
 
       &--minimized {

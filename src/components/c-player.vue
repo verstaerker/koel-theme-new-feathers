@@ -7,12 +7,22 @@
     </div>
     <div :class="b('main')">
       <div :class="b('controls', { left: true })">
-        <img
-          v-if="album"
-          :class="b('album-cover')"
-          :src="album.cover"
-          alt="album.title"
-        >
+        <figure v-if="currentSong" :class="b('currently-playing')">
+          <img
+            v-if="album"
+            :class="b('album-cover')"
+            :src="album.cover"
+            alt="album.title"
+          >
+          <figcaption :class="b('current-song')">
+            <div :class="b('song-title')">
+              {{ currentSong.title }}
+            </div>
+            <div :class="b('album-name')">
+              {{ currentSong.albumName }}
+            </div>
+          </figcaption>
+        </figure>
       </div>
       <div :class="b('controls', { center: true })">
         <e-circular-button
@@ -119,8 +129,12 @@
       ...mapGetters('session', [
         'getToken'
       ]),
+      currentSong() {
+        return this.getCurrentSong;
+      },
+
       src() {
-        const song = this.getCurrentSong;
+        const song = this.currentSong;
 
         if (!song) {
           return '';
@@ -129,7 +143,7 @@
         return `//localhost:8888${this.$t('api.root') + this.$t('api.play', { songId: song.id })}?jwt-token=${this.getToken}`;
       },
       album() {
-        if (!this.getCurrentSong) {
+        if (!this.currentSong) {
           return null;
         }
 
@@ -371,9 +385,29 @@
       @extend %button-reset;
     }
 
+    &__currently-playing {
+      display: flex;
+    }
+
     &__album-cover {
       max-width: 50px;
       height: auto;
+    }
+
+    &__current-song {
+      margin-left: $spacing--15;
+      overflow: hidden;
+    }
+
+    &__song-title,
+    &__album-title {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    &__song-title {
+      font-weight: 700;
     }
   }
 </style>
