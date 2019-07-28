@@ -1,5 +1,6 @@
 import { Model } from '@vuex-orm/core';
 import Song from './Song'; // eslint-disable-line import/no-cycle
+import Album from './Album'; // eslint-disable-line import/no-cycle
 
 /**
  * Model definition for a song artist.
@@ -17,6 +18,7 @@ export default class Artist extends Model {
       id: this.attr(null),
       name: this.string(null),
       songs: this.hasMany(Song, 'artist_id'),
+      albums: this.hasMany(Album, 'artist_id'),
     };
   }
 }

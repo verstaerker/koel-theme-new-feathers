@@ -1,6 +1,7 @@
 import index from '../pages/index';
 import album from '../pages/album/index';
 import artist from '../pages/artist/index';
+import artistAlbum from '../pages/artist/album';
 import song from '../pages/song/index';
 import albumDetail from '../pages/album/detail';
 import settings from '../pages/settings/index';
@@ -76,7 +77,20 @@ export default [
           },
         ]
       },
-      navigation.artists,
+      {
+        ...navigation.artists,
+        children: [
+          {
+            path: ':artistId',
+            name: 'artistDetail',
+            component: artistAlbum,
+            props: true,
+            meta: {
+              title: 'Artist Detail',
+            }
+          },
+        ]
+      },
       navigation.songs,
       navigation.settings,
     ]

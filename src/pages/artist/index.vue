@@ -1,12 +1,13 @@
 <template>
   <div :class="b()">
-    <ul :class="b('artist-list')">
-      <li v-for="artist in artists" :key="artist.$id">
-        {{ artist.name }}
-      </li>
-    </ul>
+    <section :class="b('artist-list')">
+      <c-artist-list />
+    </section>
     <transition name="route-slide">
-      <div v-if="this.$route.params.albumId" :class="b('detail')">
+      <div
+        v-if="$route.params.artistId"
+        :class="b('detail')"
+      >
         <router-view />
       </div>
     </transition>
@@ -14,10 +15,11 @@
 </template>
 
 <script>
-  import Artist from '@/store/models/Artist';
+  import CArtistList from '@/components/c-artist-list';
 
   export default {
     name: 'artists',
+    components: { CArtistList },
     // status: 1,
 
     // components: {},
@@ -28,11 +30,7 @@
     //   return {};
     // },
 
-    computed: {
-      artists() {
-        return Artist.all();
-      }
-    },
+    // computed: {},
     // watch: {},
 
     // beforeCreate() {},

@@ -79,5 +79,9 @@
     "play": "Abspielen",
     "next": "Nächster Song",
     "previous": "Vorheriger Song"
+  },
+  "c-artist-list": {
+    "albums": "{count} Albums",
+    "songs": "{count} Songs"
   }
 }
