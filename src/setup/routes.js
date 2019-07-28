@@ -50,7 +50,7 @@ export const navigation = {
     component: settings,
     meta: {
       title: 'Einstellungen',
-      icon: 'i-house',
+      icon: 'i-gears',
     }
   }
 };
